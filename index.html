@@ -4813,6 +4813,637 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   pointer-events: none;
 }
 
+/* ============ STEP 4: GAINS COMPARISON ============ */
+.gains-hero {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.gains-hero-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.gains-hero-tag::before, .gains-hero-tag::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+}
+
+/* Three-line chart */
+.gains-chart-wrap {
+  margin-bottom: 32px;
+  padding: 28px 24px 20px;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+}
+.gains-chart-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+
+.gains-chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.gains-chart-axis {
+  display: flex;
+  gap: 16px;
+}
+.gains-axis-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-faint);
+}
+.gains-axis-dot {
+  width: 8px; height: 8px;
+}
+.gains-axis-dot.flat { background: rgba(255,255,255,0.15); }
+.gains-axis-dot.passive { background: var(--text-dim); }
+.gains-axis-dot.mariah {
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.gains-chart {
+  width: 100%;
+  height: 220px;
+  position: relative;
+}
+.gains-chart svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Animated path styles */
+.line-flat {
+  fill: none;
+  stroke: rgba(255,255,255,0.2);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.line-passive {
+  fill: none;
+  stroke: var(--text-dim);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+}
+.line-mariah {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px var(--cyan-glow));
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+}
+.gains-chart.draw .line-passive { animation: drawLine 2s 0.3s ease forwards; }
+.gains-chart.draw .line-mariah { animation: drawLine 2.4s 0.5s ease forwards; }
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+.fill-passive {
+  fill: rgba(255,255,255,0.04);
+  opacity: 0;
+  transition: opacity 1s ease 1.5s;
+}
+.fill-mariah {
+  fill: url(#mariahGradient);
+  opacity: 0;
+  transition: opacity 1s ease 1.8s;
+}
+/* The alpha-gap region between the two lines */
+.fill-alpha-gap {
+  fill: url(#alphaGapGradient);
+  opacity: 0;
+  transition: opacity 1.2s ease 2s;
+}
+.gains-chart.draw .fill-passive,
+.gains-chart.draw .fill-mariah,
+.gains-chart.draw .fill-alpha-gap { opacity: 1; }
+
+/* The gap label callout at the right edge */
+.gap-callout {
+  position: absolute;
+  right: 4%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease 2.6s, transform 0.6s ease 2.6s;
+  transform: translateX(8px);
+}
+.gains-chart.draw .gap-callout {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.gap-callout-line {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.gap-callout-value {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 8px var(--cyan-glow);
+  background: rgba(5,6,8,0.85);
+  padding: 4px 10px;
+  border: 1px solid var(--cyan);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+.gap-callout-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(5,6,8,0.85);
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .gap-callout-value { font-size: 14px; padding: 3px 8px; }
+  .gap-callout-label { font-size: 8px; padding: 2px 8px; }
+  .gap-callout { right: 2%; }
+}
+
+/* Year markers */
+.chart-year-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--text-faint);
+  letter-spacing: 0.1em;
+}
+
+.gains-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-bottom: 32px;
+  position: relative;
+}
+.gains-card {
+  background: var(--bg);
+  padding: 22px 20px;
+}
+.gains-card.mariah {
+  position: relative;
+  background: linear-gradient(180deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
+}
+.gains-card.mariah::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top, var(--cyan-glow), transparent 60%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.gains-card-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+.gains-card-label .dot {
+  width: 8px; height: 8px;
+}
+.gains-card-label .dot.flat { background: rgba(255,255,255,0.15); }
+.gains-card-label .dot.passive { background: var(--text-dim); }
+.gains-card-label .dot.mariah { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+.gains-card-value {
+  font-family: var(--display);
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.gains-card.mariah .gains-card-value {
+  color: var(--cyan);
+  text-shadow: 0 0 16px var(--cyan-glow);
+}
+.gains-card.passive .gains-card-value { color: var(--text-dim); }
+.gains-card.flat .gains-card-value { color: var(--text-faint); }
+.gains-card-strategy {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  position: relative;
+  z-index: 2;
+}
+
+/* Alpha attribution */
+.alpha-section {
+  position: relative;
+  padding: 26px 24px;
+  background: rgba(0,229,255,0.04);
+  margin-bottom: 32px;
+}
+.alpha-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.2);
+  pointer-events: none;
+}
+.alpha-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.alpha-title {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.alpha-total {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.02em;
+}
+.alpha-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.alpha-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.alpha-row:last-child { border-bottom: none; }
+.alpha-row-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,229,255,0.08);
+  color: var(--cyan);
+  font-size: 14px;
+}
+.alpha-row-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.alpha-row-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+.alpha-row-amount {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: -0.01em;
+}
+
+/* Trade log preview */
+.trade-log {
+  margin-bottom: 32px;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+  max-height: 200px;
+}
+.trade-log::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+.trade-log-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  position: relative;
+  z-index: 2;
+}
+.trade-log-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+}
+.trade-log-live::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulse 1.8s infinite;
+}
+.trade-log-list {
+  position: relative;
+  z-index: 2;
+  max-height: 140px;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, transparent, black 20%, black 80%, transparent);
+}
+.trade-log-scroll {
+  animation: tradeScroll 24s linear infinite;
+}
+.trade-row {
+  display: grid;
+  grid-template-columns: 70px 60px 1fr auto;
+  gap: 12px;
+  padding: 8px 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  align-items: center;
+}
+.trade-time { color: var(--text-faint); }
+.trade-action.buy { color: var(--cyan); font-weight: 500; }
+.trade-action.sell { color: var(--magenta); font-weight: 500; }
+.trade-action.tax { color: #ffb547; font-weight: 500; }
+.trade-symbol { color: var(--text); font-weight: 500; }
+.trade-result.gain { color: var(--cyan); }
+.trade-result.cost { color: var(--text-faint); }
+@keyframes tradeScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@media (max-width: 700px) {
+  .gains-comparison-grid { grid-template-columns: 1fr; }
+  .alpha-row { grid-template-columns: 24px 1fr auto; gap: 10px; }
+}
+
+/* ============ MONEY FLOW DIAGRAM ============ */
+.money-flow {
+  margin-bottom: 32px;
+  padding: 28px 24px;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.money-flow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px var(--line);
+  pointer-events: none;
+}
+.money-flow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, var(--cyan-glow), transparent 70%);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.money-flow-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.money-flow-title { color: var(--cyan); }
+.money-flow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+}
+.money-flow-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulse 1.8s infinite;
+}
+
+.flow-nodes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+  z-index: 2;
+  align-items: stretch;
+}
+
+.flow-node {
+  position: relative;
+  padding: 18px 12px;
+  text-align: center;
+  background: rgba(0,229,255,0.03);
+  z-index: 2;
+}
+.flow-node::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.15);
+  pointer-events: none;
+}
+.flow-node.highlight {
+  background: linear-gradient(180deg, rgba(0,229,255,0.12), rgba(0,229,255,0.03));
+}
+.flow-node.highlight::before {
+  box-shadow: inset 0 0 0 1.5px var(--cyan);
+}
+.flow-node.highlight {
+  box-shadow: 0 0 20px rgba(0,229,255,0.1);
+}
+
+.flow-node-icon {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,229,255,0.08);
+  color: var(--cyan);
+}
+.flow-node.highlight .flow-node-icon {
+  background: rgba(0,229,255,0.15);
+  box-shadow: 0 0 16px var(--cyan-glow);
+}
+.flow-node-icon svg { width: 18px; height: 18px; }
+.flow-node-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.flow-node.highlight .flow-node-title { color: var(--cyan); }
+.flow-node-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  line-height: 1.3;
+}
+
+/* Animated connector arrows */
+.flow-connector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+.flow-connector::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-2), var(--cyan), var(--line-2));
+  transform: translateY(-50%);
+}
+.flow-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  animation: flowParticle 3s linear infinite;
+}
+.flow-connector:nth-child(2) .flow-particle { animation-delay: 0s; }
+.flow-connector:nth-child(4) .flow-particle { animation-delay: 0.7s; }
+.flow-connector:nth-child(6) .flow-particle { animation-delay: 1.4s; }
+@keyframes flowParticle {
+  0% { left: -10%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+
+.flow-grid-with-arrows {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr 24px 1fr 24px 1fr;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.flow-footnote {
+  margin-top: 20px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  position: relative;
+  z-index: 2;
+}
+.flow-footnote .key {
+  color: var(--cyan);
+}
+
+@media (max-width: 700px) {
+  .flow-grid-with-arrows {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .flow-connector {
+    width: 100%;
+    height: 24px;
+  }
+  .flow-connector::before {
+    left: 50%;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 1px;
+    background: linear-gradient(180deg, var(--line-2), var(--cyan), var(--line-2));
+    transform: translateX(-50%);
+  }
+  .flow-particle {
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    animation: flowParticleVert 3s linear infinite;
+  }
+  @keyframes flowParticleVert {
+    0% { top: -10%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+  }
+}
+
 /* ============ FOOTER ============ */
 footer {
   border-top: 1px solid var(--line);
@@ -5223,14 +5854,14 @@ footer {
         <div class="mariah-rec">
           <div class="rec-label">Mariah's Recommendation</div>
           <div class="rec-text" id="recText">
-            Cut these three leaks and you free up <strong>$640/mo</strong>. I'll route that straight into your growth bucket — at a 7% annual return, that's serious wealth compounding silently in the background. You don't change your lifestyle. You change your future.
+            Cut these three leaks and you free up <strong>$640/mo</strong>. I'll route that straight into your <strong>MX1 Trade account</strong> and start compounding it — non-custodial, your wallet, your keys. You don't change your lifestyle. You change your future.
           </div>
         </div>
 
         <!-- The payoff -->
         <div class="payoff-card">
-          <div class="payoff-label">10-Year Compound Result</div>
-          <div class="payoff-value" id="payoffValue">+$110,400</div>
+          <div class="payoff-label">20-Year Compound Result · With Mariah</div>
+          <div class="payoff-value" id="payoffValue">+$486,000</div>
           <div class="payoff-sub">From cutting <strong>3 spending leaks</strong> and letting Mariah invest the difference.</div>
         </div>
 
@@ -5238,11 +5869,13 @@ footer {
         <div class="action-plan show" id="actionPlan">
 
           <div class="plan-stepper">
-            <div class="plan-step-pill active" id="stepPill1">01 · Choose Cuts</div>
+            <div class="plan-step-pill active" id="stepPill1">01 · Cuts</div>
             <span class="plan-step-arrow">→</span>
             <div class="plan-step-pill" id="stepPill2">02 · Allocate</div>
             <span class="plan-step-arrow">→</span>
-            <div class="plan-step-pill" id="stepPill3">03 · Activate</div>
+            <div class="plan-step-pill" id="stepPill3">03 · Gains</div>
+            <span class="plan-step-arrow">→</span>
+            <div class="plan-step-pill" id="stepPill4">04 · Activate</div>
           </div>
 
           <!-- STEP 1: TOGGLE LEAKS -->
@@ -5260,8 +5893,8 @@ footer {
                 <div class="tally-value" id="tallyMonthly">$640</div>
               </div>
               <div class="tally-block payoff">
-                <div class="tally-label">10-Year Compound</div>
-                <div class="tally-value" id="tallyPayoff">+$110,400</div>
+                <div class="tally-label">20-Year Compound</div>
+                <div class="tally-value" id="tallyPayoff">+$486,000</div>
               </div>
             </div>
 
@@ -5274,13 +5907,13 @@ footer {
           <div class="plan-card" id="planStep2" style="display:none;">
             <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
 
-            <div class="plan-step-title">Where should the <span class="italic">savings</span> go?</div>
-            <p class="plan-step-sub">Mariah suggests a balanced split. Drag the sliders to match your priorities — they have to add up to 100%.</p>
+            <div class="plan-step-title">How should Mariah <span class="italic">trade</span> your money?</div>
+            <p class="plan-step-sub">Inside your <strong style="color:var(--cyan);">MX1 Trade account</strong>, Mariah runs three strategies in parallel. Drag the sliders to set your priorities — they have to add up to 100%.</p>
 
             <div class="alloc-grid">
               <div class="alloc-row">
                 <div class="alloc-head">
-                  <div class="alloc-name"><span class="emoji">🚀</span> Long-term Growth</div>
+                  <div class="alloc-name"><span class="emoji">🚀</span> Growth Strategy</div>
                   <div class="alloc-stats">
                     <span class="alloc-pct" id="allocGrowthPct">60%</span>
                     <span class="alloc-amount" id="allocGrowthAmt">$384/mo</span>
@@ -5292,7 +5925,7 @@ footer {
 
               <div class="alloc-row">
                 <div class="alloc-head">
-                  <div class="alloc-name"><span class="emoji">🏠</span> Down Payment Fund</div>
+                  <div class="alloc-name"><span class="emoji">🏠</span> Down Payment Strategy</div>
                   <div class="alloc-stats">
                     <span class="alloc-pct" id="allocHomePct">30%</span>
                     <span class="alloc-amount" id="allocHomeAmt">$192/mo</span>
@@ -5304,7 +5937,7 @@ footer {
 
               <div class="alloc-row">
                 <div class="alloc-head">
-                  <div class="alloc-name"><span class="emoji">🛡️</span> Emergency Buffer</div>
+                  <div class="alloc-name"><span class="emoji">🛡️</span> Emergency Reserve</div>
                   <div class="alloc-stats">
                     <span class="alloc-pct" id="allocEmrgPct">10%</span>
                     <span class="alloc-amount" id="allocEmrgAmt">$64/mo</span>
@@ -5319,30 +5952,266 @@ footer {
 
             <div class="alloc-projections">
               <div class="alloc-proj">
-                <div class="alloc-proj-label">10-Year Growth</div>
-                <div class="alloc-proj-value" id="proj10yrGrowth">$66,200</div>
-                <div class="alloc-proj-tag">At 7% return</div>
+                <div class="alloc-proj-label">20-Year Growth</div>
+                <div class="alloc-proj-value" id="proj10yrGrowth">$331,800</div>
+                <div class="alloc-proj-tag">At 10% · Mariah rate</div>
               </div>
               <div class="alloc-proj">
-                <div class="alloc-proj-label">Down Payment</div>
-                <div class="alloc-proj-value" id="proj10yrHome">$28,700</div>
-                <div class="alloc-proj-tag">At 4% return</div>
+                <div class="alloc-proj-label">20-Year Home Fund</div>
+                <div class="alloc-proj-value" id="proj10yrHome">$70,600</div>
+                <div class="alloc-proj-tag">At 4% · capital-preserve</div>
               </div>
               <div class="alloc-proj">
-                <div class="alloc-proj-label">Emergency Built</div>
-                <div class="alloc-proj-value" id="proj10yrEmrg">$8,800</div>
-                <div class="alloc-proj-tag">At 5% APY</div>
+                <div class="alloc-proj-label">20-Year Reserve</div>
+                <div class="alloc-proj-value" id="proj10yrEmrg">$26,300</div>
+                <div class="alloc-proj-tag">At 5% APY · liquid</div>
               </div>
+            </div>
+
+            <div style="text-align:center; margin-bottom:24px; font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--text-faint);">
+              ALL THREE STRATEGIES RUN INSIDE YOUR <span style="color:var(--cyan);">MX1 TRADE ACCOUNT</span>
             </div>
 
             <div class="profile-cta-row">
               <button class="btn-ghost" onclick="goToStep(1)" style="border:1px solid var(--line-2);">← Back</button>
-              <button class="btn-primary" id="step2Next" onclick="goToStep(3)">Next: My Plan →</button>
+              <button class="btn-primary" id="step2Next" onclick="goToStep(3)">Next: See My Gains →</button>
             </div>
           </div>
 
-          <!-- STEP 3: FINAL PLAN CARD -->
+          <!-- STEP 3: GAINS COMPARISON -->
           <div class="plan-card" id="planStep3" style="display:none;">
+            <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+            <div class="gains-hero">
+              <div class="gains-hero-tag">The Mariah Advantage</div>
+            </div>
+
+            <div class="plan-step-title">This is what Mariah <span class="italic">actually</span> does.</div>
+            <p class="plan-step-sub">Most platforms give you 7% and call it a day. Mariah trades — and that compounds into a totally different outcome over time.</p>
+
+            <!-- 3-line chart -->
+            <div class="gains-chart-wrap">
+              <div class="gains-chart-head">
+                <div>20-Year Projection</div>
+                <div class="gains-chart-axis">
+                  <div class="gains-axis-item"><div class="gains-axis-dot flat"></div>Sitting still</div>
+                  <div class="gains-axis-item"><div class="gains-axis-dot passive"></div>Index fund</div>
+                  <div class="gains-axis-item"><div class="gains-axis-dot mariah"></div>Mariah</div>
+                </div>
+              </div>
+
+              <div class="gains-chart" id="gainsChart">
+                <svg viewBox="0 0 600 220" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="mariahGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="var(--cyan)" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="var(--cyan)" stop-opacity="0"/>
+                    </linearGradient>
+                    <linearGradient id="alphaGapGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="var(--cyan)" stop-opacity="0.15"/>
+                      <stop offset="100%" stop-color="var(--cyan)" stop-opacity="0.5"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Grid lines -->
+                  <line x1="0" y1="200" x2="600" y2="200" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                  <line x1="0" y1="150" x2="600" y2="150" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 4"/>
+                  <line x1="0" y1="100" x2="600" y2="100" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 4"/>
+                  <line x1="0" y1="50" x2="600" y2="50" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 4"/>
+
+                  <!-- Year labels -->
+                  <text class="chart-year-label" x="0" y="215">Y1</text>
+                  <text class="chart-year-label" x="120" y="215">Y5</text>
+                  <text class="chart-year-label" x="270" y="215">Y10</text>
+                  <text class="chart-year-label" x="420" y="215">Y15</text>
+                  <text class="chart-year-label" x="575" y="215">Y20</text>
+
+                  <!-- Flat line (sitting still) -->
+                  <line class="line-flat" x1="0" y1="200" x2="600" y2="200"/>
+
+                  <!-- Filled areas: passive area first, then alpha gap on top -->
+                  <path id="fillPassive" class="fill-passive" d=""/>
+                  <path id="fillAlphaGap" class="fill-alpha-gap" d=""/>
+
+                  <!-- Lines -->
+                  <path id="linePassive" class="line-passive" d=""/>
+                  <path id="lineMariah" class="line-mariah" d=""/>
+                </svg>
+
+                <!-- Gap callout label at right edge -->
+                <div class="gap-callout" id="gapCallout" style="top: 50%;">
+                  <div class="gap-callout-line">
+                    <div class="gap-callout-value" id="gapCalloutValue">+$149K</div>
+                    <div class="gap-callout-label">Mariah's Edge</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3-card comparison -->
+            <div class="gains-comparison-grid">
+              <div class="gains-card flat">
+                <div class="gains-card-label"><span class="dot flat"></span>Sitting Still · 20 yrs</div>
+                <div class="gains-card-value" id="gainsFlat">$0</div>
+                <div class="gains-card-strategy">No action, no growth</div>
+              </div>
+              <div class="gains-card passive">
+                <div class="gains-card-label"><span class="dot passive"></span>Index Fund · 20 yrs</div>
+                <div class="gains-card-value" id="gainsPassive">+$334,200</div>
+                <div class="gains-card-strategy">Passive · 7% annual</div>
+              </div>
+              <div class="gains-card mariah">
+                <div class="gains-card-label"><span class="dot mariah"></span>With Mariah · 20 yrs</div>
+                <div class="gains-card-value" id="gainsMariah">+$486,000</div>
+                <div class="gains-card-strategy">Active · 10% annual</div>
+              </div>
+            </div>
+
+            <!-- Money flow diagram -->
+            <div class="money-flow">
+              <div class="money-flow-head">
+                <div class="money-flow-title">Where Your Money Lives</div>
+                <div class="money-flow-badge">Non-custodial · Your control</div>
+              </div>
+
+              <div class="flow-grid-with-arrows">
+                <div class="flow-node">
+                  <div class="flow-node-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M3 9L12 4L21 9"/>
+                      <path d="M5 10V19H19V10"/>
+                      <path d="M9 13V17M12 13V17M15 13V17"/>
+                    </svg>
+                  </div>
+                  <div class="flow-node-title">Your Bank</div>
+                  <div class="flow-node-sub">Source</div>
+                </div>
+
+                <div class="flow-connector">
+                  <div class="flow-particle"></div>
+                </div>
+
+                <div class="flow-node highlight">
+                  <div class="flow-node-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <rect x="3" y="6" width="18" height="13" rx="1"/>
+                      <path d="M3 10H21"/>
+                      <path d="M7 15H10"/>
+                    </svg>
+                  </div>
+                  <div class="flow-node-title">MX1 Trade</div>
+                  <div class="flow-node-sub">Your account</div>
+                </div>
+
+                <div class="flow-connector">
+                  <div class="flow-particle"></div>
+                </div>
+
+                <div class="flow-node highlight">
+                  <div class="flow-node-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="8"/>
+                      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                      <path d="M12 4V6M12 18V20M4 12H6M18 12H20"/>
+                    </svg>
+                  </div>
+                  <div class="flow-node-title">Mariah Trades</div>
+                  <div class="flow-node-sub">Reactor + Tax Opt</div>
+                </div>
+
+                <div class="flow-connector">
+                  <div class="flow-particle"></div>
+                </div>
+
+                <div class="flow-node">
+                  <div class="flow-node-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/>
+                    </svg>
+                  </div>
+                  <div class="flow-node-title">Your Goals</div>
+                  <div class="flow-node-sub">Wealth · Home · FIRE</div>
+                </div>
+              </div>
+
+              <div class="flow-footnote">
+                <span class="key">Your money never leaves your wallet.</span> Mariah executes through MX1 Trade · You can pause or override anytime
+              </div>
+            </div>
+
+            <!-- Alpha attribution -->
+            <div class="alpha-section">
+              <div class="alpha-head">
+                <div class="alpha-title">Where Mariah's edge comes from</div>
+                <div class="alpha-total" id="alphaTotal">+$73,800 over passive</div>
+              </div>
+              <div class="alpha-rows">
+                <div class="alpha-row">
+                  <div class="alpha-row-icon">◉</div>
+                  <div>
+                    <div class="alpha-row-name">Signal Alpha</div>
+                    <div class="alpha-row-desc">Reactor Core spots entries and exits passive funds miss</div>
+                  </div>
+                  <div class="alpha-row-amount" id="alphaSignal">+$38,400</div>
+                </div>
+                <div class="alpha-row">
+                  <div class="alpha-row-icon">⊞</div>
+                  <div>
+                    <div class="alpha-row-name">Tax-Loss Harvesting</div>
+                    <div class="alpha-row-desc">Year-round harvesting offsets gains, keeps more after-tax</div>
+                  </div>
+                  <div class="alpha-row-amount" id="alphaTax">+$22,500</div>
+                </div>
+                <div class="alpha-row">
+                  <div class="alpha-row-icon">⊕</div>
+                  <div>
+                    <div class="alpha-row-name">Goal Rebalancing</div>
+                    <div class="alpha-row-desc">Multi-bucket optimization compounds gains across goals</div>
+                  </div>
+                  <div class="alpha-row-amount" id="alphaRebal">+$12,900</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trade log preview -->
+            <div class="trade-log">
+              <div class="trade-log-head">
+                <div>Sample 12-month trade log · Profile-tuned</div>
+                <div class="trade-log-live">LIVE</div>
+              </div>
+              <div class="trade-log-list">
+                <div class="trade-log-scroll">
+                  <div class="trade-row"><span class="trade-time">Mar 14</span><span class="trade-action buy">BUY</span><span class="trade-symbol">NVDA · 4 shares</span><span class="trade-result gain">+$184</span></div>
+                  <div class="trade-row"><span class="trade-time">Mar 18</span><span class="trade-action tax">HARVEST</span><span class="trade-symbol">SOFI loss lot</span><span class="trade-result gain">+$340 tax</span></div>
+                  <div class="trade-row"><span class="trade-time">Mar 22</span><span class="trade-action sell">TRIM</span><span class="trade-symbol">SPY · partial</span><span class="trade-result gain">+$92</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 02</span><span class="trade-action buy">BUY</span><span class="trade-symbol">QQQ · 2 shares</span><span class="trade-result cost">−$8 cost</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 09</span><span class="trade-action buy">REBAL</span><span class="trade-symbol">Home → treasuries</span><span class="trade-result gain">+$45</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 15</span><span class="trade-action buy">BUY</span><span class="trade-symbol">ETH · 0.4</span><span class="trade-result gain">+$112</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 28</span><span class="trade-action sell">SELL</span><span class="trade-symbol">NVDA · 2 shares</span><span class="trade-result gain">+$208</span></div>
+                  <div class="trade-row"><span class="trade-time">May 03</span><span class="trade-action tax">HARVEST</span><span class="trade-symbol">META loss lot</span><span class="trade-result gain">+$215 tax</span></div>
+                  <div class="trade-row"><span class="trade-time">May 11</span><span class="trade-action buy">BUY</span><span class="trade-symbol">BTC · 0.02</span><span class="trade-result gain">+$87</span></div>
+                  <!-- duplicate for seamless scroll -->
+                  <div class="trade-row"><span class="trade-time">Mar 14</span><span class="trade-action buy">BUY</span><span class="trade-symbol">NVDA · 4 shares</span><span class="trade-result gain">+$184</span></div>
+                  <div class="trade-row"><span class="trade-time">Mar 18</span><span class="trade-action tax">HARVEST</span><span class="trade-symbol">SOFI loss lot</span><span class="trade-result gain">+$340 tax</span></div>
+                  <div class="trade-row"><span class="trade-time">Mar 22</span><span class="trade-action sell">TRIM</span><span class="trade-symbol">SPY · partial</span><span class="trade-result gain">+$92</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 02</span><span class="trade-action buy">BUY</span><span class="trade-symbol">QQQ · 2 shares</span><span class="trade-result cost">−$8 cost</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 09</span><span class="trade-action buy">REBAL</span><span class="trade-symbol">Home → treasuries</span><span class="trade-result gain">+$45</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 15</span><span class="trade-action buy">BUY</span><span class="trade-symbol">ETH · 0.4</span><span class="trade-result gain">+$112</span></div>
+                  <div class="trade-row"><span class="trade-time">Apr 28</span><span class="trade-action sell">SELL</span><span class="trade-symbol">NVDA · 2 shares</span><span class="trade-result gain">+$208</span></div>
+                  <div class="trade-row"><span class="trade-time">May 03</span><span class="trade-action tax">HARVEST</span><span class="trade-symbol">META loss lot</span><span class="trade-result gain">+$215 tax</span></div>
+                  <div class="trade-row"><span class="trade-time">May 11</span><span class="trade-action buy">BUY</span><span class="trade-symbol">BTC · 0.02</span><span class="trade-result gain">+$87</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-cta-row">
+              <button class="btn-ghost" onclick="goToStep(2)" style="border:1px solid var(--line-2);">← Back</button>
+              <button class="btn-primary" onclick="goToStep(4)">Next: Lock It In →</button>
+            </div>
+          </div>
+
+          <!-- STEP 4: FINAL PLAN CARD -->
+          <div class="plan-card" id="planStep4" style="display:none;">
             <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
 
             <div class="plan-step-title">Your <span class="italic">Mariah Plan</span>.</div>
@@ -5378,20 +6247,20 @@ footer {
                     </div>
                     <div class="plan-stat-cell">
                       <div class="plan-stat-label">Time Horizon</div>
-                      <div class="plan-stat-value">10 Years</div>
+                      <div class="plan-stat-value">20 Years</div>
                     </div>
                   </div>
 
                   <div class="plan-payoff">
-                    <div class="plan-payoff-label">10-Year Result</div>
-                    <div class="plan-payoff-value" id="finalPayoff">+$110,400</div>
+                    <div class="plan-payoff-label">20-Year Result</div>
+                    <div class="plan-payoff-value" id="finalPayoff">+$486,000</div>
                     <div class="plan-payoff-context">From money you weren't using anyway.</div>
                   </div>
 
                   <div class="plan-promises">
-                    <div class="plan-promise">Auto-rebalance weekly across your goals</div>
+                    <div class="plan-promise">Funds route to your MX1 Trade account weekly</div>
+                    <div class="plan-promise">Auto-rebalance across your goals</div>
                     <div class="plan-promise">Tax-loss harvest year-round to keep more</div>
-                    <div class="plan-promise">Adjust strategy as your life changes</div>
                     <div class="plan-promise">Your wallet · Your keys · Non-custodial</div>
                   </div>
                 </div>
@@ -5404,7 +6273,7 @@ footer {
             </div>
 
             <div class="profile-cta-row" id="activateRow">
-              <button class="btn-ghost" onclick="goToStep(2)" style="border:1px solid var(--line-2);">← Back</button>
+              <button class="btn-ghost" onclick="goToStep(3)" style="border:1px solid var(--line-2);">← Back</button>
               <button class="btn-primary" onclick="activatePlan()">Activate My Plan →</button>
               <button class="btn-ghost" onclick="sharePlan()" style="border:1px solid var(--line-2);">Share</button>
             </div>
@@ -7660,12 +8529,12 @@ function showAnalysis(data) {
   document.getElementById('leaksTotal').textContent = `$${totalSavings}/mo lost`;
 
   // Recommendation text
-  const recText = `Cut these <strong>${leaks.length} leaks</strong> and you free up <strong>$${totalSavings}/mo</strong>. I'll route that straight into your growth bucket — at a 7% annual return, that's serious wealth compounding silently in the background. You don't change your lifestyle. You change your future.`;
+  const recText = `Cut these <strong>${leaks.length} leaks</strong> and you free up <strong>$${totalSavings}/mo</strong>. I'll route that straight into your <strong>MX1 Trade account</strong> and start compounding it — non-custodial, your wallet, your keys. You don't change your lifestyle. You change your future.`;
   document.getElementById('recText').innerHTML = recText;
 
-  // 10-year compound payoff (FV of annuity at 7% / 12)
-  const monthlyRate = 0.07 / 12;
-  const months = 120;
+  // 20-year compound payoff with Mariah (FV of annuity at 10% / 12)
+  const monthlyRate = 0.10 / 12;
+  const months = 240;
   const fv = totalSavings * (((Math.pow(1 + monthlyRate, months) - 1)) / monthlyRate);
   const payoff = Math.round(fv);
   document.getElementById('payoffValue').textContent = '+$' + payoff.toLocaleString();
@@ -7825,9 +8694,9 @@ function recalcTally() {
   const monthly = getTotalMonthlySavings();
   document.getElementById('tallyMonthly').textContent = '$' + monthly.toLocaleString();
 
-  // 10-year compound at 7%
-  const r = 0.07 / 12;
-  const n = 120;
+  // 20-year compound at Mariah's 10% annual rate
+  const r = 0.10 / 12;
+  const n = 240;
   const fv = monthly === 0 ? 0 : monthly * (((Math.pow(1 + r, n) - 1)) / r);
   document.getElementById('tallyPayoff').textContent = '+$' + Math.round(fv).toLocaleString();
 
@@ -7837,8 +8706,9 @@ function recalcTally() {
 
 function goToStep(n) {
   // Update steppers
-  ['stepPill1', 'stepPill2', 'stepPill3'].forEach((id, idx) => {
+  ['stepPill1', 'stepPill2', 'stepPill3', 'stepPill4'].forEach((id, idx) => {
     const el = document.getElementById(id);
+    if (!el) return;
     el.classList.remove('active', 'done');
     if (idx + 1 < n) el.classList.add('done');
     if (idx + 1 === n) el.classList.add('active');
@@ -7848,11 +8718,15 @@ function goToStep(n) {
   document.getElementById('planStep1').style.display = n === 1 ? '' : 'none';
   document.getElementById('planStep2').style.display = n === 2 ? '' : 'none';
   document.getElementById('planStep3').style.display = n === 3 ? '' : 'none';
+  document.getElementById('planStep4').style.display = n === 4 ? '' : 'none';
 
   if (n === 2) {
     recalcAllocations();
   }
   if (n === 3) {
+    drawGainsChart();
+  }
+  if (n === 4) {
     finalizePlan();
   }
 
@@ -7860,6 +8734,139 @@ function goToStep(n) {
   setTimeout(() => {
     document.getElementById('actionPlan').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
+}
+
+// === STEP 3: GAINS CHART ===
+function drawGainsChart() {
+  const monthly = getTotalMonthlySavings();
+  const a = userAllocations;
+
+  // Compute weighted blend rates
+  // Passive: 7% (S&P long-term average)
+  // Mariah: 10% annualized (active outperformance via signal alpha, tax opt, rebalancing)
+  const passiveRate = 0.07;
+  const mariahRate = 0.10;
+  const totalYears = 20;
+  const months = totalYears * 12;
+
+  // Build year-by-year points for the 20-year curve
+  const points = [];
+  for (let y = 0; y <= totalYears; y++) {
+    const m = y * 12;
+    // FV of annuity formula
+    function fv(rate) {
+      const r = rate / 12;
+      if (m === 0 || monthly === 0) return 0;
+      return monthly * (((Math.pow(1 + r, m) - 1)) / r);
+    }
+    points.push({
+      year: y,
+      passive: fv(passiveRate),
+      mariah: fv(mariahRate)
+    });
+  }
+
+  // Find max value for scaling
+  const maxVal = Math.max(...points.map(p => p.mariah)) * 1.05;
+
+  // Build SVG paths (width 600, height 220, with 200 being baseline)
+  const w = 600;
+  const baselineY = 200;
+  const topY = 20;
+  const usableH = baselineY - topY;
+
+  function toPath(getY) {
+    let d = '';
+    points.forEach((p, i) => {
+      const x = (i / totalYears) * w;
+      const yVal = getY(p);
+      const y = baselineY - (yVal / maxVal) * usableH;
+      d += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    });
+    return d;
+  }
+
+  const passivePath = toPath(p => p.passive);
+  const mariahPath = toPath(p => p.mariah);
+
+  // Close the fill paths down to baseline
+  const passiveFill = passivePath + `L${w},${baselineY} L0,${baselineY} Z`;
+
+  // Build the alpha-gap fill: Mariah curve forward, then passive curve in reverse
+  // This creates a closed shape between the two lines
+  let gapPath = '';
+  points.forEach((p, i) => {
+    const x = (i / totalYears) * w;
+    const yMariah = baselineY - (p.mariah / maxVal) * usableH;
+    gapPath += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + yMariah.toFixed(1) + ' ';
+  });
+  // Now reverse along passive line
+  for (let i = points.length - 1; i >= 0; i--) {
+    const p = points[i];
+    const x = (i / totalYears) * w;
+    const yPassive = baselineY - (p.passive / maxVal) * usableH;
+    gapPath += 'L' + x.toFixed(1) + ',' + yPassive.toFixed(1) + ' ';
+  }
+  gapPath += 'Z';
+
+  // Apply to SVG
+  const linePassive = document.getElementById('linePassive');
+  const lineMariah = document.getElementById('lineMariah');
+  const fillPassive = document.getElementById('fillPassive');
+  const fillAlphaGap = document.getElementById('fillAlphaGap');
+  const chart = document.getElementById('gainsChart');
+
+  if (linePassive) linePassive.setAttribute('d', passivePath);
+  if (lineMariah) lineMariah.setAttribute('d', mariahPath);
+  if (fillPassive) fillPassive.setAttribute('d', passiveFill);
+  if (fillAlphaGap) fillAlphaGap.setAttribute('d', gapPath);
+
+  // Position the gap callout vertically — midpoint between the two final values
+  const finalPassiveY = baselineY - (points[totalYears].passive / maxVal) * usableH;
+  const finalMariahY = baselineY - (points[totalYears].mariah / maxVal) * usableH;
+  const midY = (finalPassiveY + finalMariahY) / 2;
+  // Convert SVG coordinate (0-220 viewBox height) to percentage of chart container
+  const topPercent = (midY / 220) * 100;
+  const gapCallout = document.getElementById('gapCallout');
+  if (gapCallout) {
+    gapCallout.style.top = `calc(${topPercent}% - 24px)`;
+  }
+
+  // Reset and trigger animation
+  if (chart) {
+    chart.classList.remove('draw');
+    void chart.offsetWidth;
+    chart.classList.add('draw');
+  }
+
+  // Update comparison numbers — use Y20 final values
+  const finalPassive = points[totalYears].passive;
+  const finalMariah = points[totalYears].mariah;
+  const alphaTotal = finalMariah - finalPassive;
+
+  // Attribution: signal ~52%, tax ~30%, rebal ~18% of the alpha
+  const alphaSignal = Math.round(alphaTotal * 0.52);
+  const alphaTax = Math.round(alphaTotal * 0.30);
+  const alphaRebal = Math.round(alphaTotal * 0.18);
+
+  document.getElementById('gainsPassive').textContent = '+$' + Math.round(finalPassive).toLocaleString();
+  document.getElementById('gainsMariah').textContent = '+$' + Math.round(finalMariah).toLocaleString();
+  document.getElementById('alphaTotal').textContent = '+$' + Math.round(alphaTotal).toLocaleString() + ' over passive';
+  document.getElementById('alphaSignal').textContent = '+$' + alphaSignal.toLocaleString();
+  document.getElementById('alphaTax').textContent = '+$' + alphaTax.toLocaleString();
+  document.getElementById('alphaRebal').textContent = '+$' + alphaRebal.toLocaleString();
+
+  // Update the gap callout label with the alpha amount
+  const gapValueEl = document.getElementById('gapCalloutValue');
+  if (gapValueEl) {
+    // Show shortened version for the callout (e.g. "+$149K" or "+$1.2M")
+    const abs = Math.abs(alphaTotal);
+    let short;
+    if (abs >= 1000000) short = '+$' + (alphaTotal / 1000000).toFixed(1) + 'M';
+    else if (abs >= 1000) short = '+$' + Math.round(alphaTotal / 1000) + 'K';
+    else short = '+$' + Math.round(alphaTotal);
+    gapValueEl.textContent = short;
+  }
 }
 
 // === STEP 2: Allocation logic ===
@@ -7889,13 +8896,13 @@ function recalcAllocations() {
   document.getElementById('allocHomeAmt').textContent = '$' + hAmt + '/mo';
   document.getElementById('allocEmrgAmt').textContent = '$' + eAmt + '/mo';
 
-  // 10yr projections (FV of annuity)
+  // 20-year projections (FV of annuity) — Growth uses Mariah's 10% annual rate
   function fv(amt, rate) {
     const r = rate / 12;
-    const n = 120;
+    const n = 240;
     return amt === 0 ? 0 : amt * (((Math.pow(1 + r, n) - 1)) / r);
   }
-  document.getElementById('proj10yrGrowth').textContent = '$' + Math.round(fv(gAmt, 0.07)).toLocaleString();
+  document.getElementById('proj10yrGrowth').textContent = '$' + Math.round(fv(gAmt, 0.10)).toLocaleString();
   document.getElementById('proj10yrHome').textContent = '$' + Math.round(fv(hAmt, 0.04)).toLocaleString();
   document.getElementById('proj10yrEmrg').textContent = '$' + Math.round(fv(eAmt, 0.05)).toLocaleString();
 
@@ -7924,21 +8931,22 @@ function recalcAllocations() {
   if (s) s.addEventListener('input', recalcAllocations);
 });
 
-// === STEP 3: Final plan ===
+// === STEP 4: Final plan ===
 function finalizePlan() {
   const monthly = getTotalMonthlySavings();
   const a = userAllocations;
 
-  // Compute weighted 10-year payoff: growth at 7%, home at 4%, emrg at 5%
+  // Compute weighted 20-year payoff with MARIAH's outperformance
+  // Growth at 10% (Mariah's annual rate), home at 4%, emrg at 5%
   function fv(amt, rate) {
     const r = rate / 12;
-    const n = 120;
+    const n = 240; // 20 years
     return amt === 0 ? 0 : amt * (((Math.pow(1 + r, n) - 1)) / r);
   }
   const gAmt = monthly * a.growth / 100;
   const hAmt = monthly * a.home / 100;
   const eAmt = monthly * a.emrg / 100;
-  const totalFV = fv(gAmt, 0.07) + fv(hAmt, 0.04) + fv(eAmt, 0.05);
+  const totalFV = fv(gAmt, 0.10) + fv(hAmt, 0.04) + fv(eAmt, 0.05);
 
   document.getElementById('finalMonthly').textContent = '$' + monthly.toLocaleString();
   document.getElementById('finalPayoff').textContent = '+$' + Math.round(totalFV).toLocaleString();
@@ -7963,8 +8971,8 @@ function finalizePlan() {
 
   // Date
   const d = new Date();
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  document.getElementById('planDate').textContent = months[d.getMonth()] + ' ' + d.getFullYear();
+  const months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  document.getElementById('planDate').textContent = months_arr[d.getMonth()] + ' ' + d.getFullYear();
 }
 
 function activatePlan() {
