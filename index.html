@@ -3957,6 +3957,633 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 }
 .reset-btn:hover { color: var(--cyan); }
 
+/* ============ ACTION PLAN FLOW ============ */
+.action-plan {
+  margin-top: 48px;
+  display: none;
+}
+.action-plan.show { display: block; animation: fadeUp 0.6s ease forwards; }
+
+.plan-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.plan-step-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  color: var(--text-faint);
+  background: rgba(255,255,255,0.02);
+  position: relative;
+  transition: all 0.3s;
+}
+.plan-step-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  pointer-events: none;
+  transition: box-shadow 0.3s;
+}
+.plan-step-pill.done {
+  color: var(--cyan);
+  background: rgba(0,229,255,0.05);
+}
+.plan-step-pill.done::before { box-shadow: inset 0 0 0 1px rgba(0,229,255,0.3); }
+.plan-step-pill.active {
+  color: var(--text);
+  background: rgba(0,229,255,0.08);
+}
+.plan-step-pill.active::before { box-shadow: inset 0 0 0 1.5px var(--cyan); }
+.plan-step-arrow {
+  color: var(--text-faint);
+  font-size: 12px;
+}
+
+.plan-card {
+  position: relative;
+  padding: 40px 36px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+  margin-bottom: 24px;
+}
+.plan-card .feature-corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.plan-card .feature-corners span {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--cyan);
+  border-style: solid;
+  opacity: 0.5;
+}
+.plan-card .feature-corners span:nth-child(1) { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.plan-card .feature-corners span:nth-child(2) { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.plan-card .feature-corners span:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.plan-card .feature-corners span:nth-child(4) { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+.plan-step-title {
+  font-family: var(--display);
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.plan-step-title .italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cyan);
+}
+.plan-step-sub {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* === STEP 1: TOGGLE LEAKS === */
+.toggle-leaks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.toggle-leak {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 20px;
+  background: rgba(0,229,255,0.03);
+  cursor: pointer;
+  transition: all 0.25s;
+  user-select: none;
+}
+.toggle-leak::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  transition: box-shadow 0.25s;
+  pointer-events: none;
+}
+.toggle-leak:hover { background: rgba(0,229,255,0.05); }
+.toggle-leak.checked {
+  background: rgba(0,229,255,0.06);
+}
+.toggle-leak.checked::before { box-shadow: inset 0 0 0 1.5px var(--cyan); }
+.toggle-leak.checked .toggle-leak-savings { color: var(--cyan); }
+.toggle-leak.unchecked {
+  opacity: 0.55;
+}
+.toggle-leak.unchecked .toggle-leak-savings { color: var(--text-faint); text-decoration: line-through; }
+
+.toggle-checkbox {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  background: rgba(0,0,0,0.4);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.toggle-checkbox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.15);
+  transition: box-shadow 0.2s;
+}
+.toggle-leak.checked .toggle-checkbox {
+  background: var(--cyan);
+}
+.toggle-leak.checked .toggle-checkbox::before { box-shadow: inset 0 0 0 1.5px var(--cyan); }
+.toggle-leak.checked .toggle-checkbox::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border-right: 2px solid var(--bg);
+  border-bottom: 2px solid var(--bg);
+  transform: rotate(45deg);
+}
+
+.toggle-leak-text {
+  display: flex;
+  flex-direction: column;
+}
+.toggle-leak-name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.toggle-leak-action {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.toggle-leak-savings {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--cyan);
+  white-space: nowrap;
+  text-align: right;
+  transition: color 0.2s;
+}
+.toggle-leak-savings-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* Live savings tally */
+.live-tally {
+  position: relative;
+  padding: 24px;
+  background: rgba(0,229,255,0.04);
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+.live-tally::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.2);
+  pointer-events: none;
+}
+.tally-block {
+  text-align: center;
+}
+.tally-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.tally-value {
+  font-family: var(--display);
+  font-size: clamp(28px, 4.5vw, 40px);
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.3s;
+}
+.tally-block.payoff .tally-value {
+  text-shadow: 0 0 24px var(--cyan-glow);
+}
+
+/* === STEP 2: ALLOCATION === */
+.alloc-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+.alloc-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.alloc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.alloc-name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.alloc-name .emoji { font-size: 18px; }
+.alloc-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.alloc-pct {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+.alloc-amount {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.alloc-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  outline: none;
+  cursor: pointer;
+}
+.alloc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--cyan);
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+.alloc-slider::-moz-range-thumb {
+  width: 18px; height: 18px;
+  background: var(--cyan);
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+}
+.alloc-desc {
+  font-size: 12px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.alloc-warning {
+  padding: 12px 16px;
+  background: rgba(255,40,140,0.08);
+  position: relative;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--magenta);
+  margin-bottom: 20px;
+  display: none;
+}
+.alloc-warning.show { display: block; }
+.alloc-warning::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,40,140,0.3);
+  pointer-events: none;
+}
+
+.alloc-projections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-bottom: 32px;
+  position: relative;
+}
+.alloc-proj {
+  background: var(--bg);
+  padding: 18px;
+  text-align: left;
+}
+.alloc-proj-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+.alloc-proj-value {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: -0.01em;
+}
+.alloc-proj-tag {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .alloc-projections { grid-template-columns: 1fr; }
+  .live-tally { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* === STEP 3: PLAN CARD === */
+.final-plan {
+  position: relative;
+  margin-bottom: 28px;
+}
+.plan-export {
+  position: relative;
+  padding: 0;
+  background: linear-gradient(135deg, #0a0e14 0%, #0d1119 50%, #0a0e14 100%);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+
+.plan-export::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(0,229,255,0.12), transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(255,40,140,0.08), transparent 50%);
+  pointer-events: none;
+}
+.plan-export::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  pointer-events: none;
+}
+
+.plan-export-head {
+  position: relative;
+  z-index: 2;
+  padding: 28px 36px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.plan-export-brand {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.plan-export-name {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.plan-export-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  text-align: right;
+}
+
+.plan-export-body {
+  position: relative;
+  z-index: 2;
+  padding: 32px 36px;
+}
+
+.plan-export-headline {
+  font-family: var(--display);
+  font-size: clamp(28px, 4.5vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 28px;
+}
+.plan-export-headline .italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cyan);
+}
+
+.plan-grid-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 28px;
+}
+.plan-stat-cell {
+  background: rgba(0,0,0,0.2);
+  padding: 18px 20px;
+}
+.plan-stat-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+.plan-stat-value {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.plan-stat-value.accent { color: var(--cyan); }
+
+.plan-payoff {
+  text-align: center;
+  padding: 28px 0 20px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+  position: relative;
+}
+.plan-payoff::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, var(--cyan-glow), transparent 70%);
+  opacity: 0.25;
+  pointer-events: none;
+}
+.plan-payoff-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  position: relative;
+}
+.plan-payoff-value {
+  font-family: var(--display);
+  font-size: clamp(48px, 9vw, 84px);
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-shadow: 0 0 40px var(--cyan-glow);
+  position: relative;
+}
+.plan-payoff-context {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-top: 12px;
+  position: relative;
+}
+
+.plan-promises {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.plan-promise {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text);
+}
+.plan-promise::before {
+  content: '✦';
+  color: var(--cyan);
+  font-size: 11px;
+  text-shadow: 0 0 8px var(--cyan);
+}
+
+.plan-export-footer {
+  position: relative;
+  z-index: 2;
+  padding: 16px 36px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.plan-export-footer .accent { color: var(--cyan); }
+
+@media (max-width: 640px) {
+  .plan-export-head, .plan-export-body, .plan-export-footer { padding-left: 24px; padding-right: 24px; }
+  .plan-grid-stats { grid-template-columns: 1fr; }
+  .plan-export-footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+/* Activation success state */
+.plan-activated {
+  display: none;
+  text-align: center;
+  padding: 60px 24px;
+}
+.plan-activated.show { display: block; animation: fadeUp 0.6s ease forwards; }
+.plan-activated-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: rgba(0,229,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.plan-activated-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--cyan);
+}
+.plan-activated-icon svg {
+  width: 28px; height: 28px;
+  color: var(--cyan);
+}
+.plan-activated-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.plan-activated-sub {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+.plan-activated-position {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 10px 20px;
+  background: rgba(0,229,255,0.06);
+  display: inline-block;
+  position: relative;
+}
+.plan-activated-position::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.3);
+  pointer-events: none;
+}
+
 /* ============ FOOTER ============ */
 footer {
   border-top: 1px solid var(--line);
@@ -4386,14 +5013,194 @@ footer {
           <div class="payoff-sub">From cutting <strong>3 spending leaks</strong> and letting Mariah invest the difference.</div>
         </div>
 
-        <!-- CTA -->
-        <div class="profile-cta-row">
-          <button class="btn-primary" onclick="applyProfileToBuilder()">Apply to My Plan →</button>
-          <button class="btn-ghost" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Reserve Beta Spot</button>
-        </div>
+        <!-- ===== ACTION PLAN FLOW (Steps 1, 2, 3) ===== -->
+        <div class="action-plan show" id="actionPlan">
 
-        <div class="profile-reset">
-          <button class="reset-btn" onclick="resetProfile()">↺ Start Over</button>
+          <div class="plan-stepper">
+            <div class="plan-step-pill active" id="stepPill1">01 · Choose Cuts</div>
+            <span class="plan-step-arrow">→</span>
+            <div class="plan-step-pill" id="stepPill2">02 · Allocate</div>
+            <span class="plan-step-arrow">→</span>
+            <div class="plan-step-pill" id="stepPill3">03 · Activate</div>
+          </div>
+
+          <!-- STEP 1: TOGGLE LEAKS -->
+          <div class="plan-card" id="planStep1">
+            <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+            <div class="plan-step-title">Pick what you're <span class="italic">willing</span> to cut.</div>
+            <p class="plan-step-sub">No pressure. Toggle off anything you can't live without. Your plan recalculates instantly.</p>
+
+            <div class="toggle-leaks" id="toggleLeaks"></div>
+
+            <div class="live-tally">
+              <div class="tally-block">
+                <div class="tally-label">Monthly Saved</div>
+                <div class="tally-value" id="tallyMonthly">$640</div>
+              </div>
+              <div class="tally-block payoff">
+                <div class="tally-label">10-Year Compound</div>
+                <div class="tally-value" id="tallyPayoff">+$110,400</div>
+              </div>
+            </div>
+
+            <div class="profile-cta-row">
+              <button class="btn-primary" onclick="goToStep(2)">Next: Where it goes →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: ALLOCATION -->
+          <div class="plan-card" id="planStep2" style="display:none;">
+            <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+            <div class="plan-step-title">Where should the <span class="italic">savings</span> go?</div>
+            <p class="plan-step-sub">Mariah suggests a balanced split. Drag the sliders to match your priorities — they have to add up to 100%.</p>
+
+            <div class="alloc-grid">
+              <div class="alloc-row">
+                <div class="alloc-head">
+                  <div class="alloc-name"><span class="emoji">🚀</span> Long-term Growth</div>
+                  <div class="alloc-stats">
+                    <span class="alloc-pct" id="allocGrowthPct">60%</span>
+                    <span class="alloc-amount" id="allocGrowthAmt">$384/mo</span>
+                  </div>
+                </div>
+                <input type="range" class="alloc-slider" id="allocGrowth" min="0" max="100" value="60">
+                <div class="alloc-desc">Aggressive compounding — equities, factor tilts, selective crypto exposure.</div>
+              </div>
+
+              <div class="alloc-row">
+                <div class="alloc-head">
+                  <div class="alloc-name"><span class="emoji">🏠</span> Down Payment Fund</div>
+                  <div class="alloc-stats">
+                    <span class="alloc-pct" id="allocHomePct">30%</span>
+                    <span class="alloc-amount" id="allocHomeAmt">$192/mo</span>
+                  </div>
+                </div>
+                <input type="range" class="alloc-slider" id="allocHome" min="0" max="100" value="30">
+                <div class="alloc-desc">Capital-preserving — treasuries and short-duration credit.</div>
+              </div>
+
+              <div class="alloc-row">
+                <div class="alloc-head">
+                  <div class="alloc-name"><span class="emoji">🛡️</span> Emergency Buffer</div>
+                  <div class="alloc-stats">
+                    <span class="alloc-pct" id="allocEmrgPct">10%</span>
+                    <span class="alloc-amount" id="allocEmrgAmt">$64/mo</span>
+                  </div>
+                </div>
+                <input type="range" class="alloc-slider" id="allocEmrg" min="0" max="100" value="10">
+                <div class="alloc-desc">High-yield savings — accessible within 24 hours.</div>
+              </div>
+            </div>
+
+            <div class="alloc-warning" id="allocWarning">⚠ Allocations must add up to exactly 100%</div>
+
+            <div class="alloc-projections">
+              <div class="alloc-proj">
+                <div class="alloc-proj-label">10-Year Growth</div>
+                <div class="alloc-proj-value" id="proj10yrGrowth">$66,200</div>
+                <div class="alloc-proj-tag">At 7% return</div>
+              </div>
+              <div class="alloc-proj">
+                <div class="alloc-proj-label">Down Payment</div>
+                <div class="alloc-proj-value" id="proj10yrHome">$28,700</div>
+                <div class="alloc-proj-tag">At 4% return</div>
+              </div>
+              <div class="alloc-proj">
+                <div class="alloc-proj-label">Emergency Built</div>
+                <div class="alloc-proj-value" id="proj10yrEmrg">$8,800</div>
+                <div class="alloc-proj-tag">At 5% APY</div>
+              </div>
+            </div>
+
+            <div class="profile-cta-row">
+              <button class="btn-ghost" onclick="goToStep(1)" style="border:1px solid var(--line-2);">← Back</button>
+              <button class="btn-primary" id="step2Next" onclick="goToStep(3)">Next: My Plan →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: FINAL PLAN CARD -->
+          <div class="plan-card" id="planStep3" style="display:none;">
+            <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+            <div class="plan-step-title">Your <span class="italic">Mariah Plan</span>.</div>
+            <p class="plan-step-sub">Built from your spending, your priorities, and your goals. Lock it in to reserve your beta access.</p>
+
+            <div class="final-plan">
+              <div class="plan-export" id="planExportCard">
+                <div class="plan-export-head">
+                  <div>
+                    <div class="plan-export-brand">MX1 · Mariah Plan</div>
+                    <div class="plan-export-name">Personalized for you</div>
+                  </div>
+                  <div class="plan-export-id" id="planExportId">PLAN-2026-04891</div>
+                </div>
+
+                <div class="plan-export-body">
+                  <div class="plan-export-headline">
+                    Build <span class="italic">wealth</span> from the<br>money you were losing.
+                  </div>
+
+                  <div class="plan-grid-stats">
+                    <div class="plan-stat-cell">
+                      <div class="plan-stat-label">Monthly Contribution</div>
+                      <div class="plan-stat-value accent" id="finalMonthly">$640</div>
+                    </div>
+                    <div class="plan-stat-cell">
+                      <div class="plan-stat-label">Primary Goal</div>
+                      <div class="plan-stat-value" id="finalPrimary">Grow Wealth</div>
+                    </div>
+                    <div class="plan-stat-cell">
+                      <div class="plan-stat-label">Risk Level</div>
+                      <div class="plan-stat-value" id="finalRisk">Balanced · 6/10</div>
+                    </div>
+                    <div class="plan-stat-cell">
+                      <div class="plan-stat-label">Time Horizon</div>
+                      <div class="plan-stat-value">10 Years</div>
+                    </div>
+                  </div>
+
+                  <div class="plan-payoff">
+                    <div class="plan-payoff-label">10-Year Result</div>
+                    <div class="plan-payoff-value" id="finalPayoff">+$110,400</div>
+                    <div class="plan-payoff-context">From money you weren't using anyway.</div>
+                  </div>
+
+                  <div class="plan-promises">
+                    <div class="plan-promise">Auto-rebalance weekly across your goals</div>
+                    <div class="plan-promise">Tax-loss harvest year-round to keep more</div>
+                    <div class="plan-promise">Adjust strategy as your life changes</div>
+                    <div class="plan-promise">Your wallet · Your keys · Non-custodial</div>
+                  </div>
+                </div>
+
+                <div class="plan-export-footer">
+                  <span>Built <span id="planDate">May 2026</span></span>
+                  <span class="accent">mx1trade.com / mariah</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-cta-row" id="activateRow">
+              <button class="btn-ghost" onclick="goToStep(2)" style="border:1px solid var(--line-2);">← Back</button>
+              <button class="btn-primary" onclick="activatePlan()">Activate My Plan →</button>
+              <button class="btn-ghost" onclick="sharePlan()" style="border:1px solid var(--line-2);">Share</button>
+            </div>
+
+            <!-- Activation success state -->
+            <div class="plan-activated" id="planActivated">
+              <div class="plan-activated-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 13L9 17L19 7"/>
+                </svg>
+              </div>
+              <div class="plan-activated-title">Plan locked in.</div>
+              <div class="plan-activated-sub">Your personalized Mariah plan is ready. When beta access opens, we'll activate it immediately and send your first weekly briefing.</div>
+              <div class="plan-activated-position" id="planActivatedPos">Position #2,848 · Beta access in ~6 weeks</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -6638,6 +7445,265 @@ function resetProfile() {
   document.getElementById('profileAnalysis').classList.remove('show');
   switchMode('bank');
   window._profileData = null;
+}
+
+// ===== ACTION PLAN FLOW (Steps 1-3) =====
+let actionPlanLeaks = [];   // Array of { name, action, monthly, checked }
+let userAllocations = { growth: 60, home: 30, emrg: 10 };
+
+// Hook into the existing showAnalysis to also populate the action plan
+const _originalShowAnalysis = showAnalysis;
+showAnalysis = function(data) {
+  _originalShowAnalysis(data);
+  populateActionPlan(data);
+};
+
+function populateActionPlan(data) {
+  // Build leaks list from data
+  const leaks = data.categories
+    .filter(c => c.leak)
+    .sort((a, b) => (b.leakSaving || 0) - (a.leakSaving || 0))
+    .slice(0, 3);
+
+  // Generate action recommendations per leak
+  actionPlanLeaks = leaks.map((c, i) => {
+    const actions = {
+      'Food & Dining': 'Reduce takeout to 4x/month',
+      'Subscriptions': 'Cancel unused subscriptions',
+      'Entertainment': 'Drop underused memberships',
+      'Shopping': 'Set a monthly shopping cap'
+    };
+    return {
+      id: 'leak-' + i,
+      name: `${c.emoji} ${c.name}`,
+      action: actions[c.name] || 'Reduce discretionary spend',
+      monthly: c.leakSaving || 0,
+      checked: true
+    };
+  });
+
+  // Render leak toggles
+  renderToggleLeaks();
+  recalcTally();
+
+  // Reset to step 1
+  goToStep(1);
+
+  // Show the action plan
+  document.getElementById('actionPlan').classList.add('show');
+}
+
+function renderToggleLeaks() {
+  const container = document.getElementById('toggleLeaks');
+  if (!container) return;
+  container.innerHTML = '';
+  actionPlanLeaks.forEach(leak => {
+    const div = document.createElement('div');
+    div.className = 'toggle-leak ' + (leak.checked ? 'checked' : 'unchecked');
+    div.innerHTML = `
+      <div class="toggle-checkbox"></div>
+      <div class="toggle-leak-text">
+        <div class="toggle-leak-name">${leak.name}</div>
+        <div class="toggle-leak-action">${leak.action}</div>
+      </div>
+      <div>
+        <div class="toggle-leak-savings">+$${leak.monthly.toLocaleString()}</div>
+        <div class="toggle-leak-savings-sub">per month</div>
+      </div>
+    `;
+    div.addEventListener('click', () => {
+      leak.checked = !leak.checked;
+      div.classList.toggle('checked', leak.checked);
+      div.classList.toggle('unchecked', !leak.checked);
+      recalcTally();
+    });
+    container.appendChild(div);
+  });
+}
+
+function getTotalMonthlySavings() {
+  return actionPlanLeaks.filter(l => l.checked).reduce((sum, l) => sum + l.monthly, 0);
+}
+
+function recalcTally() {
+  const monthly = getTotalMonthlySavings();
+  document.getElementById('tallyMonthly').textContent = '$' + monthly.toLocaleString();
+
+  // 10-year compound at 7%
+  const r = 0.07 / 12;
+  const n = 120;
+  const fv = monthly === 0 ? 0 : monthly * (((Math.pow(1 + r, n) - 1)) / r);
+  document.getElementById('tallyPayoff').textContent = '+$' + Math.round(fv).toLocaleString();
+
+  // Also update allocation amounts if we're on step 2
+  recalcAllocations();
+}
+
+function goToStep(n) {
+  // Update steppers
+  ['stepPill1', 'stepPill2', 'stepPill3'].forEach((id, idx) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active', 'done');
+    if (idx + 1 < n) el.classList.add('done');
+    if (idx + 1 === n) el.classList.add('active');
+  });
+
+  // Show/hide steps
+  document.getElementById('planStep1').style.display = n === 1 ? '' : 'none';
+  document.getElementById('planStep2').style.display = n === 2 ? '' : 'none';
+  document.getElementById('planStep3').style.display = n === 3 ? '' : 'none';
+
+  if (n === 2) {
+    recalcAllocations();
+  }
+  if (n === 3) {
+    finalizePlan();
+  }
+
+  // Scroll to top of action plan area
+  setTimeout(() => {
+    document.getElementById('actionPlan').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+// === STEP 2: Allocation logic ===
+const allocGrowth = document.getElementById('allocGrowth');
+const allocHome = document.getElementById('allocHome');
+const allocEmrg = document.getElementById('allocEmrg');
+
+function recalcAllocations() {
+  if (!allocGrowth) return;
+  const g = parseInt(allocGrowth.value);
+  const h = parseInt(allocHome.value);
+  const e = parseInt(allocEmrg.value);
+  const total = g + h + e;
+  const monthly = getTotalMonthlySavings();
+
+  userAllocations = { growth: g, home: h, emrg: e };
+
+  document.getElementById('allocGrowthPct').textContent = g + '%';
+  document.getElementById('allocHomePct').textContent = h + '%';
+  document.getElementById('allocEmrgPct').textContent = e + '%';
+
+  const gAmt = Math.round(monthly * g / 100);
+  const hAmt = Math.round(monthly * h / 100);
+  const eAmt = Math.round(monthly * e / 100);
+
+  document.getElementById('allocGrowthAmt').textContent = '$' + gAmt + '/mo';
+  document.getElementById('allocHomeAmt').textContent = '$' + hAmt + '/mo';
+  document.getElementById('allocEmrgAmt').textContent = '$' + eAmt + '/mo';
+
+  // 10yr projections (FV of annuity)
+  function fv(amt, rate) {
+    const r = rate / 12;
+    const n = 120;
+    return amt === 0 ? 0 : amt * (((Math.pow(1 + r, n) - 1)) / r);
+  }
+  document.getElementById('proj10yrGrowth').textContent = '$' + Math.round(fv(gAmt, 0.07)).toLocaleString();
+  document.getElementById('proj10yrHome').textContent = '$' + Math.round(fv(hAmt, 0.04)).toLocaleString();
+  document.getElementById('proj10yrEmrg').textContent = '$' + Math.round(fv(eAmt, 0.05)).toLocaleString();
+
+  // Warning if total != 100
+  const warning = document.getElementById('allocWarning');
+  const step2Next = document.getElementById('step2Next');
+  if (total !== 100) {
+    warning.textContent = `⚠ Allocations add up to ${total}% — adjust to 100%`;
+    warning.classList.add('show');
+    if (step2Next) {
+      step2Next.disabled = true;
+      step2Next.style.opacity = '0.5';
+      step2Next.style.cursor = 'not-allowed';
+    }
+  } else {
+    warning.classList.remove('show');
+    if (step2Next) {
+      step2Next.disabled = false;
+      step2Next.style.opacity = '';
+      step2Next.style.cursor = '';
+    }
+  }
+}
+
+[allocGrowth, allocHome, allocEmrg].forEach(s => {
+  if (s) s.addEventListener('input', recalcAllocations);
+});
+
+// === STEP 3: Final plan ===
+function finalizePlan() {
+  const monthly = getTotalMonthlySavings();
+  const a = userAllocations;
+
+  // Compute weighted 10-year payoff: growth at 7%, home at 4%, emrg at 5%
+  function fv(amt, rate) {
+    const r = rate / 12;
+    const n = 120;
+    return amt === 0 ? 0 : amt * (((Math.pow(1 + r, n) - 1)) / r);
+  }
+  const gAmt = monthly * a.growth / 100;
+  const hAmt = monthly * a.home / 100;
+  const eAmt = monthly * a.emrg / 100;
+  const totalFV = fv(gAmt, 0.07) + fv(hAmt, 0.04) + fv(eAmt, 0.05);
+
+  document.getElementById('finalMonthly').textContent = '$' + monthly.toLocaleString();
+  document.getElementById('finalPayoff').textContent = '+$' + Math.round(totalFV).toLocaleString();
+
+  // Determine primary goal based on largest allocation
+  let primary = 'Grow Wealth';
+  if (a.home > a.growth && a.home > a.emrg) primary = 'Buy a Home';
+  if (a.emrg > a.growth && a.emrg > a.home) primary = 'Build Emergency Fund';
+  document.getElementById('finalPrimary').textContent = primary;
+
+  // Risk based on growth allocation
+  let risk = 'Balanced · 6/10';
+  if (a.growth >= 75) risk = 'Aggressive · 8/10';
+  else if (a.growth >= 55) risk = 'Balanced · 6/10';
+  else if (a.growth >= 30) risk = 'Moderate · 4/10';
+  else risk = 'Conservative · 3/10';
+  document.getElementById('finalRisk').textContent = risk;
+
+  // Random plan ID
+  const planId = 'PLAN-2026-' + Math.floor(Math.random() * 90000 + 10000);
+  document.getElementById('planExportId').textContent = planId;
+
+  // Date
+  const d = new Date();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  document.getElementById('planDate').textContent = months[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function activatePlan() {
+  // Pull the current count and increment
+  const counterNumEl = document.getElementById('counterNum');
+  const currentCount = counterNumEl ? parseInt(counterNumEl.textContent.replace(',', '')) : 2847;
+  const userPos = currentCount + 1;
+  if (counterNumEl) counterNumEl.textContent = userPos.toLocaleString();
+
+  document.getElementById('planActivatedPos').textContent = `Position #${userPos.toLocaleString()} · Beta access in ~6 weeks`;
+
+  document.getElementById('activateRow').style.display = 'none';
+  document.getElementById('planExportCard').style.opacity = '0.5';
+  document.getElementById('planActivated').classList.add('show');
+}
+
+function sharePlan() {
+  const monthly = getTotalMonthlySavings();
+  const payoffEl = document.getElementById('finalPayoff');
+  const payoff = payoffEl ? payoffEl.textContent : '';
+  const shareText = `My Mariah Plan: I'm turning ${'$' + monthly.toLocaleString()}/mo of spending leaks into ${payoff} over 10 years. Building with MX1 Capital. mx1trade.com`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'My Mariah Plan',
+      text: shareText,
+      url: 'https://mx1trade.com'
+    }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText);
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = originalText; }, 2000);
+  }
 }
 </script>
 </body>
