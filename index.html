@@ -2492,6 +2492,387 @@ nav {
   animation: successPing 0.6s ease;
 }
 
+/* ============ MARIAH MOOD PILL ============ */
+.mariah-mood {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0,229,255,0.04);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  position: relative;
+  transition: all 0.3s;
+  cursor: default;
+}
+.mariah-mood::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.2);
+  pointer-events: none;
+}
+.mariah-mood:hover { background: rgba(0,229,255,0.08); }
+.mood-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+.mood-text {
+  transition: opacity 0.4s;
+}
+.mood-text.fading { opacity: 0; }
+
+@media (max-width: 900px) {
+  .mariah-mood { display: none; }
+}
+
+/* ============ DRAG-THE-NEEDLE INTERACTION ============ */
+.reactor-dial {
+  cursor: grab;
+}
+.reactor-dial.grabbing { cursor: grabbing; }
+.reactor-dial.user-controlled #dialNeedle line,
+.reactor-dial.user-controlled #dialNeedle circle {
+  transition: none !important;
+}
+.reactor-dial.user-controlled #confArc {
+  transition: stroke-dashoffset 0.1s linear, stroke 0.6s ease;
+}
+
+.drag-hint {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+.drag-hint::before {
+  content: '✦';
+  color: var(--cyan);
+  font-size: 12px;
+}
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.mariah-take {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: rgba(0,229,255,0.04);
+  position: relative;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.mariah-take.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.mariah-take::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--cyan);
+}
+.mariah-take .mariah-avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+}
+.mariah-take-text strong { color: var(--cyan); font-weight: 500; }
+
+/* ============ PERSONALITY QUIZ ============ */
+.quiz-section {
+  padding: 100px 0 60px;
+  position: relative;
+  background: linear-gradient(180deg, transparent, rgba(0,229,255,0.015) 50%, transparent);
+}
+
+.quiz-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.quiz-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.quiz-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.quiz-tag::before, .quiz-tag::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+}
+
+.quiz-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.quiz-title .italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cyan);
+}
+
+.quiz-card {
+  position: relative;
+  padding: 48px 40px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+  overflow: hidden;
+  min-height: 380px;
+}
+
+.quiz-card .feature-corners span {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--cyan);
+  border-style: solid;
+  opacity: 0.5;
+}
+.quiz-card .feature-corners span:nth-child(1) { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.quiz-card .feature-corners span:nth-child(2) { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.quiz-card .feature-corners span:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.quiz-card .feature-corners span:nth-child(4) { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+.quiz-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+.quiz-progress-step {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+}
+.quiz-progress-step.done {
+  background: var(--cyan);
+}
+.quiz-progress-step.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  animation: progressFill 0.4s ease forwards;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+@keyframes progressFill {
+  to { transform: scaleX(1); }
+}
+
+.quiz-step-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+}
+
+.quiz-question {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin-bottom: 32px;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.quiz-option {
+  position: relative;
+  padding: 22px 22px;
+  background: rgba(0,229,255,0.02);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: left;
+  border: none;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.quiz-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  transition: box-shadow 0.25s;
+  pointer-events: none;
+}
+.quiz-option:hover {
+  background: rgba(0,229,255,0.06);
+  transform: translateX(2px);
+}
+.quiz-option:hover::before {
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.4);
+}
+.quiz-option.selected {
+  background: rgba(0,229,255,0.1);
+}
+.quiz-option.selected::before {
+  box-shadow: inset 0 0 0 1.5px var(--cyan);
+}
+
+.quiz-option-emoji {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.quiz-option-label {
+  flex: 1;
+  font-size: 14px;
+}
+.quiz-option-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+  .quiz-card { padding: 32px 24px; }
+  .quiz-question { font-size: 22px; }
+  .quiz-options { grid-template-columns: 1fr; }
+}
+
+/* Quiz result */
+.quiz-result {
+  text-align: center;
+  display: none;
+}
+.quiz-result.show { display: block; animation: fadeUp 0.6s ease forwards; }
+
+.quiz-result-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 16px;
+}
+.quiz-archetype {
+  font-family: var(--display);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.quiz-archetype-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+}
+
+.quiz-result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 32px;
+  position: relative;
+}
+.quiz-stat {
+  background: var(--bg);
+  padding: 20px 16px;
+  text-align: left;
+}
+.quiz-stat-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.quiz-stat-value {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: -0.01em;
+}
+.quiz-stat-value.text { font-size: 14px; color: var(--text); font-weight: 500; }
+
+.quiz-result-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 560px) {
+  .quiz-result-stats { grid-template-columns: 1fr; }
+  .quiz-result-cta { flex-direction: column; }
+}
+
 /* ============ LIVE WAITLIST COUNTER ============ */
 .waitlist-counter {
   display: inline-flex;
@@ -2773,6 +3154,12 @@ footer {
       <div class="logo-mark">M1</div>
       MX1 / Mariah
     </div>
+
+    <div class="mariah-mood" id="mariahMood" title="Mariah's current state">
+      <span class="mood-dot"></span>
+      <span class="mood-text" id="moodText">Hunting</span>
+    </div>
+
     <div class="nav-links">
       <a href="#reactor">Reactor</a>
       <a href="#how">How It Works</a>
@@ -2882,6 +3269,65 @@ footer {
           <div class="mariah-response-tag">Demo response · ~200ms</div>
         </div>
         <div class="mariah-response-body" id="mariahResponseBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PERSONALITY QUIZ ===== -->
+<section class="quiz-section" id="quiz">
+  <div class="container">
+    <div class="quiz-wrap">
+      <div class="quiz-intro">
+        <div class="quiz-tag">60-Second Profile</div>
+        <h2 class="quiz-title">What kind of <span class="italic">investor</span> are you?</h2>
+      </div>
+
+      <div class="quiz-card">
+        <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+        <!-- Active Quiz -->
+        <div id="quizActive">
+          <div class="quiz-progress" id="quizProgress">
+            <div class="quiz-progress-step active"></div>
+            <div class="quiz-progress-step"></div>
+            <div class="quiz-progress-step"></div>
+            <div class="quiz-progress-step"></div>
+            <div class="quiz-progress-step"></div>
+          </div>
+
+          <div class="quiz-step-label" id="quizStepLabel">Question 1 of 5</div>
+          <div class="quiz-question" id="quizQuestion">Pick a vibe.</div>
+
+          <div class="quiz-options" id="quizOptions"></div>
+        </div>
+
+        <!-- Result -->
+        <div class="quiz-result" id="quizResult">
+          <div class="quiz-result-label">Your Archetype</div>
+          <div class="quiz-archetype" id="archetypeName">The Calculated Visionary</div>
+          <div class="quiz-archetype-sub" id="archetypeSub">A balanced builder who plays the long game.</div>
+
+          <div class="quiz-result-stats">
+            <div class="quiz-stat">
+              <div class="quiz-stat-label">Suggested Goal</div>
+              <div class="quiz-stat-value text" id="archetypeGoal">Grow Wealth</div>
+            </div>
+            <div class="quiz-stat">
+              <div class="quiz-stat-label">Risk Level</div>
+              <div class="quiz-stat-value" id="archetypeRisk">6/10</div>
+            </div>
+            <div class="quiz-stat">
+              <div class="quiz-stat-label">Strategy</div>
+              <div class="quiz-stat-value text" id="archetypeStrategy">Conviction-Weighted</div>
+            </div>
+          </div>
+
+          <div class="quiz-result-cta">
+            <button class="btn-primary" onclick="quizToBuilder()">Build My Plan →</button>
+            <button class="btn-ghost" onclick="quizRestart()" style="border:1px solid var(--line-2);">Retake</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -3185,6 +3631,8 @@ footer {
             <div class="dial-value" id="dialValue">64</div>
             <div class="dial-unit">Percent</div>
           </div>
+
+          <div class="drag-hint" id="dragHint">Drag to set confidence</div>
         </div>
       </div>
 
@@ -3302,6 +3750,11 @@ footer {
           <span class="dot"></span>
           <span class="pressure-label" id="pressureLabel">Ask Pressure Building</span>
           <span class="pressure-status" id="pressureStatus">· LOW</span>
+        </div>
+
+        <div class="mariah-take" id="mariahTake">
+          <div class="mariah-avatar">M</div>
+          <div class="mariah-take-text" id="mariahTakeText"></div>
         </div>
       </div>
     </div>
@@ -4463,13 +4916,339 @@ const reactorObserver = new IntersectionObserver((entries) => {
       setTimeout(() => applyScenario(scenarios[0]), 300);
       // Cycle through scenarios
       setInterval(() => {
-        currentScenario = (currentScenario + 1) % scenarios.length;
-        applyScenario(scenarios[currentScenario]);
+        if (!window._userControllingDial) {
+          currentScenario = (currentScenario + 1) % scenarios.length;
+          applyScenario(scenarios[currentScenario]);
+        }
       }, 4500);
     }
   });
 }, { threshold: 0.2 });
 reactorObserver.observe(reactorSection);
+
+// ===== MARIAH'S MOOD (NAV PILL) =====
+const moodTextEl = document.getElementById('moodText');
+const moods = [
+  'Hunting', 'Patient', 'Analyzing', 'Risk-Off',
+  'On a streak', 'In control', 'Watching SPY',
+  'Compounding', 'Listening', 'Locked in'
+];
+let moodIdx = 0;
+if (moodTextEl) {
+  setInterval(() => {
+    moodTextEl.classList.add('fading');
+    setTimeout(() => {
+      moodIdx = (moodIdx + 1) % moods.length;
+      moodTextEl.textContent = moods[moodIdx];
+      moodTextEl.classList.remove('fading');
+    }, 400);
+  }, 6000);
+}
+
+// ===== DRAG-THE-NEEDLE INTERACTION =====
+const reactorDial = document.getElementById('reactorDial');
+const mariahTake = document.getElementById('mariahTake');
+const mariahTakeText = document.getElementById('mariahTakeText');
+const dragHint = document.getElementById('dragHint');
+
+if (reactorDial) {
+  let dragging = false;
+  let userTakeTimeout;
+
+  function getConfFromAngle(angle) {
+    let pct = ((angle + 135) / 270) * 100;
+    return Math.max(0, Math.min(100, Math.round(pct)));
+  }
+
+  function angleFromEvent(e) {
+    const rect = reactorDial.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - cx;
+    const dy = clientY - cy;
+    let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
+    angle = Math.max(-135, Math.min(135, angle));
+    return angle;
+  }
+
+  function setUserConfidence(conf) {
+    const needleAngle = -135 + (conf / 100) * 270;
+    dialValueEl.textContent = conf;
+    reactorConfEl.textContent = conf + '%';
+    telConfEl.textContent = conf + '%';
+    dialNeedle.style.transform = `rotate(${needleAngle}deg)`;
+    dialNeedle.style.transformOrigin = '200px 200px';
+    const dashOffset = 879.6 - (879.6 * (conf / 100));
+    confArc.style.strokeDashoffset = dashOffset;
+    const isLong = conf >= 50;
+    const signal = isLong ? 'LONG' : 'SHORT';
+    const color = isLong ? '#00e5ff' : '#ff2e8a';
+    const glow = isLong ? 'rgba(0,229,255,0.5)' : 'rgba(255,40,140,0.5)';
+    reactorSection.style.setProperty('--signal-color', color);
+    reactorSection.style.setProperty('--signal-glow', glow);
+    reactorSignalEl.textContent = signal;
+    prevConfidence = conf;
+  }
+
+  function showMariahTake(conf) {
+    clearTimeout(userTakeTimeout);
+    let text = '';
+    const signal = conf >= 50 ? 'LONG' : 'SHORT';
+    if (conf >= 85) {
+      text = `<strong>${conf}% conviction.</strong> I'd act on this — high confidence on a ${signal} setup. Position sized to your goal's risk budget.`;
+    } else if (conf >= 70) {
+      text = `<strong>${conf}% — solid ${signal} signal.</strong> I'd take this trade for any aggressive goal. For conservative goals, I'd pass.`;
+    } else if (conf >= 55) {
+      text = `<strong>${conf}% — marginal ${signal}.</strong> Only acting if it aligns with multiple goals at once. Otherwise I sit out.`;
+    } else if (conf >= 45) {
+      text = `<strong>${conf}% — too close to call.</strong> I'd watch, not trade. Mariah doesn't force entries.`;
+    } else if (conf >= 30) {
+      text = `<strong>${conf}% — weak ${signal} read.</strong> I'd wait for a clearer setup. Capital preservation matters more than activity.`;
+    } else {
+      text = `<strong>${conf}% — no trade.</strong> At this confidence, the right move is no move. I'd let it develop.`;
+    }
+    mariahTakeText.innerHTML = text;
+    mariahTake.classList.add('show');
+  }
+
+  function hideMariahTake() {
+    userTakeTimeout = setTimeout(() => {
+      mariahTake.classList.remove('show');
+      window._userControllingDial = false;
+      if (dragHint) dragHint.style.display = '';
+    }, 5000);
+  }
+
+  function startDrag(e) {
+    e.preventDefault();
+    dragging = true;
+    window._userControllingDial = true;
+    reactorDial.classList.add('grabbing', 'user-controlled');
+    if (dragHint) dragHint.style.display = 'none';
+    clearTimeout(userTakeTimeout);
+    const angle = angleFromEvent(e);
+    const conf = getConfFromAngle(angle);
+    setUserConfidence(conf);
+    showMariahTake(conf);
+  }
+
+  function moveDrag(e) {
+    if (!dragging) return;
+    e.preventDefault();
+    const angle = angleFromEvent(e);
+    const conf = getConfFromAngle(angle);
+    setUserConfidence(conf);
+    showMariahTake(conf);
+  }
+
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    reactorDial.classList.remove('grabbing');
+    setTimeout(() => reactorDial.classList.remove('user-controlled'), 100);
+    hideMariahTake();
+  }
+
+  reactorDial.addEventListener('mousedown', startDrag);
+  reactorDial.addEventListener('touchstart', startDrag, { passive: false });
+  document.addEventListener('mousemove', moveDrag);
+  document.addEventListener('touchmove', moveDrag, { passive: false });
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+}
+
+// ===== PERSONALITY QUIZ =====
+const quizQuestions = [
+  {
+    label: 'Question 1 of 5',
+    question: 'Pick a vibe.',
+    options: [
+      { emoji: '🏔️', label: 'Mountain peak', sub: 'Bold, ambitious', value: 'bold' },
+      { emoji: '🌊', label: 'Steady ocean', sub: 'Patient, deep', value: 'patient' },
+      { emoji: '⚡', label: 'Lightning fast', sub: 'Agile, opportunistic', value: 'fast' },
+      { emoji: '🌳', label: 'Old oak tree', sub: 'Stable, reliable', value: 'stable' }
+    ]
+  },
+  {
+    label: 'Question 2 of 5',
+    question: "What's your money mood?",
+    options: [
+      { emoji: '🚀', label: 'Compound aggressively', sub: 'Long-term growth', value: 'grow' },
+      { emoji: '🏠', label: 'Save for a thing', sub: 'Specific goal', value: 'save' },
+      { emoji: '💸', label: 'Generate income', sub: 'Monthly cashflow', value: 'income' },
+      { emoji: '🌅', label: 'Retire early', sub: 'Hit FIRE', value: 'fire' }
+    ]
+  },
+  {
+    label: 'Question 3 of 5',
+    question: 'A trade drops 15%. You...',
+    options: [
+      { emoji: '😎', label: 'Buy more', sub: 'Sale prices', value: 'risk-high' },
+      { emoji: '🤔', label: 'Hold and watch', sub: "See how it plays", value: 'risk-mid' },
+      { emoji: '😬', label: 'Cut my losses', sub: "Save what's left", value: 'risk-low' },
+      { emoji: '🛌', label: 'Try not to look', sub: 'Trust the plan', value: 'risk-trust' }
+    ]
+  },
+  {
+    label: 'Question 4 of 5',
+    question: 'How much time do you want to spend on this?',
+    options: [
+      { emoji: '🎯', label: 'Set it and forget it', sub: 'Zero daily', value: 'time-zero' },
+      { emoji: '☕', label: 'Morning coffee check', sub: '5 min/day', value: 'time-low' },
+      { emoji: '📈', label: 'A few times a day', sub: 'Stay engaged', value: 'time-mid' },
+      { emoji: '🔥', label: 'I live in markets', sub: 'All day every day', value: 'time-high' }
+    ]
+  },
+  {
+    label: 'Question 5 of 5',
+    question: "What's the dream?",
+    options: [
+      { emoji: '🏝️', label: 'Beach by 40', sub: 'Early retirement', value: 'dream-fire' },
+      { emoji: '🏘️', label: 'Buy a home', sub: 'In a few years', value: 'dream-home' },
+      { emoji: '💼', label: 'Quit my job', sub: 'Live off investments', value: 'dream-income' },
+      { emoji: '🦄', label: 'Generational wealth', sub: 'Long game', value: 'dream-grow' }
+    ]
+  }
+];
+
+const archetypes = {
+  'bold-grow': { name: 'The Calculated Visionary', sub: 'A balanced builder who plays the long game.', goal: 'Grow Wealth', risk: 7, strategy: 'Conviction-Weighted' },
+  'bold-fire': { name: 'The Fire Walker', sub: 'High aspirations. Aggressive timeline. No fear.', goal: 'Retire Early', risk: 8, strategy: 'Long-Compound' },
+  'bold-income': { name: 'The Cashflow Architect', sub: 'You want money making money — now.', goal: 'Monthly Income', risk: 7, strategy: 'Yield-Targeted' },
+  'bold-save': { name: 'The Power Saver', sub: 'Big goals on a clock. You move fast.', goal: 'Buy a Home', risk: 5, strategy: 'Capital-Preserve' },
+  'patient-grow': { name: 'The Quiet Compounder', sub: 'Slow, steady, and unstoppable over time.', goal: 'Grow Wealth', risk: 5, strategy: 'Diversified' },
+  'patient-fire': { name: 'The Long Hauler', sub: "You've done the math. You're playing it perfectly.", goal: 'Retire Early', risk: 5, strategy: 'Long-Compound' },
+  'patient-save': { name: 'The Pragmatic Builder', sub: 'Goals on deadlines. Capital that shows up.', goal: 'Buy a Home', risk: 4, strategy: 'Capital-Preserve' },
+  'patient-income': { name: 'The Patient Yielder', sub: 'Steady cashflow without surprises.', goal: 'Monthly Income', risk: 4, strategy: 'Yield-Targeted' },
+  'fast-grow': { name: 'The Edge Hunter', sub: 'You spot opportunity and you move.', goal: 'Grow Wealth', risk: 8, strategy: 'Conviction-Weighted' },
+  'fast-income': { name: 'The Active Yielder', sub: 'You want your money working — and you want to watch.', goal: 'Monthly Income', risk: 6, strategy: 'Yield-Targeted' },
+  'fast-fire': { name: 'The Accelerator', sub: 'You see the finish line and you sprint.', goal: 'Retire Early', risk: 8, strategy: 'Long-Compound' },
+  'fast-save': { name: 'The Sprinter', sub: 'Short timeline. High intensity. Get it done.', goal: 'Buy a Home', risk: 6, strategy: 'Capital-Preserve' },
+  'stable-save': { name: 'The Guardian', sub: 'Capital preservation first. Returns second.', goal: 'Buy a Home', risk: 3, strategy: 'Capital-Preserve' },
+  'stable-grow': { name: 'The Steady Growth Strategist', sub: 'You compound — and you sleep at night.', goal: 'Grow Wealth', risk: 5, strategy: 'Diversified' },
+  'stable-fire': { name: 'The Disciplined Dreamer', sub: 'Big dreams. Calm execution.', goal: 'Retire Early', risk: 5, strategy: 'Long-Compound' },
+  'stable-income': { name: 'The Income Steward', sub: 'You want monthly cashflow without the rollercoaster.', goal: 'Monthly Income', risk: 4, strategy: 'Yield-Targeted' },
+  'default': { name: 'The Multi-Goal Mastermind', sub: 'You want it all — and Mariah can deliver it.', goal: 'Grow Wealth', risk: 6, strategy: 'Conviction-Weighted' }
+};
+
+let quizStep = 0;
+let quizAnswers = [];
+
+const quizActive = document.getElementById('quizActive');
+const quizResult = document.getElementById('quizResult');
+const quizProgress = document.getElementById('quizProgress');
+const quizStepLabel = document.getElementById('quizStepLabel');
+const quizQuestionEl = document.getElementById('quizQuestion');
+const quizOptionsEl = document.getElementById('quizOptions');
+
+function renderQuizStep(idx) {
+  const q = quizQuestions[idx];
+  if (!q) return finalizeQuiz();
+  quizStepLabel.textContent = q.label;
+  quizQuestionEl.textContent = q.question;
+  quizOptionsEl.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.innerHTML = `
+      <span class="quiz-option-emoji">${opt.emoji}</span>
+      <div>
+        <div class="quiz-option-label">${opt.label}</div>
+        <div class="quiz-option-sub">${opt.sub}</div>
+      </div>
+    `;
+    btn.addEventListener('click', () => selectQuizOption(opt.value, btn));
+    quizOptionsEl.appendChild(btn);
+  });
+  const steps = quizProgress.querySelectorAll('.quiz-progress-step');
+  steps.forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i < idx) s.classList.add('done');
+    if (i === idx) s.classList.add('active');
+  });
+}
+
+function selectQuizOption(value, btnEl) {
+  btnEl.classList.add('selected');
+  quizAnswers.push(value);
+  setTimeout(() => {
+    quizStep++;
+    if (quizStep < quizQuestions.length) {
+      renderQuizStep(quizStep);
+    } else {
+      finalizeQuiz();
+    }
+  }, 360);
+}
+
+function finalizeQuiz() {
+  const vibe = quizAnswers[0];
+  const mood = quizAnswers[1];
+  const dream = quizAnswers[4];
+  const key = `${vibe}-${mood}`;
+  const archetype = archetypes[key] || archetypes['default'];
+
+  let suggestedGoal = archetype.goal;
+  if (dream === 'dream-fire') suggestedGoal = 'Retire Early';
+  if (dream === 'dream-home') suggestedGoal = 'Buy a Home';
+  if (dream === 'dream-income') suggestedGoal = 'Monthly Income';
+  if (dream === 'dream-grow') suggestedGoal = 'Grow Wealth';
+
+  document.getElementById('archetypeName').textContent = archetype.name;
+  document.getElementById('archetypeSub').textContent = archetype.sub;
+  document.getElementById('archetypeGoal').textContent = suggestedGoal;
+  document.getElementById('archetypeRisk').textContent = archetype.risk + '/10';
+  document.getElementById('archetypeStrategy').textContent = archetype.strategy;
+
+  window._archetypePrefs = { goal: suggestedGoal, risk: archetype.risk };
+
+  const steps = quizProgress.querySelectorAll('.quiz-progress-step');
+  steps.forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+
+  quizActive.style.display = 'none';
+  quizResult.classList.add('show');
+}
+
+function quizRestart() {
+  quizStep = 0;
+  quizAnswers = [];
+  quizActive.style.display = '';
+  quizResult.classList.remove('show');
+  renderQuizStep(0);
+}
+
+function quizToBuilder() {
+  const prefs = window._archetypePrefs;
+  if (prefs) {
+    const goalMap = {
+      'Buy a Home': 'home',
+      'Grow Wealth': 'growth',
+      'Retire Early': 'fire',
+      'Monthly Income': 'income'
+    };
+    const targetType = goalMap[prefs.goal] || 'growth';
+    const btn = document.querySelector(`.type-btn[data-type="${targetType}"]`);
+    if (btn) btn.click();
+    setTimeout(() => {
+      document.getElementById('risk').value = prefs.risk;
+      document.getElementById('risk').dispatchEvent(new Event('input'));
+    }, 300);
+  }
+  document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+}
+
+const quizObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !window._quizInit) {
+      window._quizInit = true;
+      renderQuizStep(0);
+    }
+  });
+}, { threshold: 0.2 });
+const quizSection = document.getElementById('quiz');
+if (quizSection) quizObserver.observe(quizSection);
 </script>
 </body>
 </html>
