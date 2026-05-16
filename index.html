@@ -6711,10 +6711,7 @@ footer {
       <a href="#profile">Profile</a>
       <a href="#coaching">Coaching</a>
       <a href="#reactor">Reactor</a>
-      <a href="#how">How It Works</a>
       <a href="#features">Capabilities</a>
-      <a href="#builder">Try It</a>
-      <a href="#learn">Learn</a>
       <a href="#roadmap">Roadmap</a>
     </div>
     <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get Access</button>
@@ -6747,7 +6744,7 @@ footer {
       <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
         Join The Waitlist →
       </button>
-      <a class="btn-ghost" href="#builder">See It In Action</a>
+      <a class="btn-ghost" href="#profile">See It In Action</a>
     </div>
 
     <div class="stats-strip">
@@ -8196,37 +8193,6 @@ footer {
   </div>
 </section>
 
-<!-- ===== HOW IT WORKS ===== -->
-<section class="section" id="how">
-  <div class="container">
-    <div class="section-tag reveal">How It Works</div>
-    <h2 class="section-title reveal">Four moves. <br>That's <span class="italic">it</span>.</h2>
-
-    <div class="steps-grid reveal">
-      <div class="step">
-        <div class="step-num">STEP 01</div>
-        <h3>Set your goals</h3>
-        <p>Tell Mariah what you're after — down payment, retirement, monthly income, or whatever's in your head. Add as many as you want.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">STEP 02</div>
-        <h3>She builds the plan</h3>
-        <p>Mariah's Reactor Core builds your strategy — allocation, time horizon, risk budget, confidence thresholds — tuned to every single goal.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">STEP 03</div>
-        <h3>Auto-execute, in your wallet</h3>
-        <p>She runs the trades through your own non-custodial setup. Your money never leaves your control. Ever.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">STEP 04</div>
-        <h3>Watch progress, ask anything</h3>
-        <p>Goals update in real time. Ask why she made a move — she'll tell you in plain English, with the data behind it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===== FEATURES ===== -->
 <section class="section" id="features" style="background:var(--bg-2);">
   <div class="container">
@@ -8276,26 +8242,6 @@ footer {
             <span class="num">06</span><span class="unit">d</span>
             <span class="sep">·</span>
             <span class="num seconds" id="demoSec">42</span><span class="unit">s</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
-        <div class="feature-badge">
-          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="6" y="6" width="12" height="12"/>
-            <rect x="22" y="6" width="12" height="12"/>
-            <rect x="6" y="22" width="12" height="12"/>
-            <rect x="22" y="22" width="12" height="12"/>
-          </svg>
-        </div>
-        <h3>Multi-goal balancing</h3>
-        <p>Running five goals at once? Mariah optimizes across all of them — capital allocated where it does the most for the whole plan.</p>
-        <div class="feature-demo">
-          <div class="demo-bars">
-            <div class="demo-bar"></div>
-            <div class="demo-bar"></div>
-            <div class="demo-bar"></div>
           </div>
         </div>
       </div>
@@ -8361,9 +8307,6 @@ footer {
         </div>
       </div>
 
-      <!-- === TAX OPTIMIZATION CATEGORY === -->
-      <div class="features-category-divider">Tax Optimization</div>
-
       <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
         <div class="feature-badge">
           <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -8385,247 +8328,6 @@ footer {
         </div>
       </div>
 
-      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
-        <div class="feature-badge">
-          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="6" y="10" width="28" height="22" rx="1"/>
-            <path d="M6 16H34"/>
-            <path d="M12 6V12M28 6V12"/>
-          </svg>
-        </div>
-        <h3>Wash-sale aware</h3>
-        <p>She knows the 30-day rule and tracks every position across all your accounts. No accidental wash sales. No surprise tax bills in April.</p>
-        <div class="feature-demo">
-          <div class="demo-calendar" id="demoCalendar"></div>
-        </div>
-      </div>
-
-      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
-        <div class="feature-badge">
-          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="8" y="12" width="24" height="20" rx="2"/>
-            <path d="M14 8V14M26 8V14M8 20H32"/>
-            <path d="M14 26L18 30L26 22"/>
-          </svg>
-        </div>
-        <h3>Long-term holding bias</h3>
-        <p>Where the strategy allows, Mariah holds positions past the 1-year line to capture long-term capital gains rates — often saving more than the trade itself made.</p>
-        <div class="feature-demo">
-          <div class="demo-timeline">
-            <div class="demo-timeline-track"></div>
-            <div class="demo-timeline-fill"></div>
-            <div class="demo-timeline-marker"></div>
-            <div class="demo-timeline-flag"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== INTERACTIVE GOAL BUILDER ===== -->
-<section class="section builder-section" id="builder">
-  <div class="container">
-    <div class="section-tag reveal">Try It Now</div>
-    <h2 class="section-title reveal">
-      Set a goal.<br>See what Mariah <span class="italic">says</span>.
-    </h2>
-    <p class="section-sub reveal">
-      Move the sliders. Change the numbers. She rebuilds your plan in real time.
-    </p>
-
-    <div class="builder reveal">
-      <!-- LEFT: Inputs -->
-      <div class="builder-left">
-        <div class="builder-label">Configure Your Goal</div>
-
-        <div class="field">
-          <label class="field-label">Goal Type</label>
-          <div class="type-row" id="typeRow">
-            <button class="type-btn active" data-type="home">Home</button>
-            <button class="type-btn" data-type="growth">Growth</button>
-            <button class="type-btn" data-type="fire" title="Financial Independence, Retire Early">FIRE</button>
-            <button class="type-btn" data-type="income">Income</button>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Target Amount</label>
-          <div class="input-prefix">
-            <span class="pre">$</span>
-            <input class="input-field" type="number" id="targetAmt" value="80000" min="1000" step="1000">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Starting Capital</label>
-          <div class="input-prefix">
-            <span class="pre">$</span>
-            <input class="input-field" type="number" id="startCap" value="15000" min="0" step="500">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Timeline (months)</label>
-          <div class="slider-wrap">
-            <input type="range" class="slider" id="timeline" min="6" max="360" value="24">
-            <div class="slider-value"><span class="accent" id="timelineVal">24</span> months</div>
-            <div class="slider-labels"><span>6 mo</span><span>30 yr</span></div>
-          </div>
-        </div>
-
-        <div class="field" style="margin-bottom:0;">
-          <label class="field-label">Risk Tolerance</label>
-          <div class="slider-wrap">
-            <input type="range" class="slider" id="risk" min="1" max="10" value="5">
-            <div class="slider-value"><span class="accent" id="riskVal">5</span> / 10 — <span style="color:var(--text-dim);font-size:18px;" id="riskLabel">Balanced</span></div>
-            <div class="slider-labels"><span>Conservative</span><span>Aggressive</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT: Analysis -->
-      <div class="builder-right">
-        <div class="analysis-head">
-          <div class="mariah-avatar">M</div>
-          <div>
-            <div class="analysis-name">Mariah's Analysis</div>
-            <div class="analysis-status">Live · Recalculating</div>
-          </div>
-        </div>
-
-        <div class="analysis-body">
-          <div class="proj-grid">
-            <div class="proj">
-              <div class="proj-label">Required Monthly</div>
-              <div class="proj-value accent" id="monthlyReq">$2,708</div>
-            </div>
-            <div class="proj">
-              <div class="proj-label">Projected Return</div>
-              <div class="proj-value" id="projReturn">7.2%</div>
-            </div>
-            <div class="proj">
-              <div class="proj-label">Hit Probability</div>
-              <div class="proj-value" id="hitProb">82%</div>
-            </div>
-            <div class="proj">
-              <div class="proj-label">Strategy</div>
-              <div class="proj-value" style="font-size:18px;" id="strategy">Balanced</div>
-            </div>
-          </div>
-
-          <div class="analysis-text" id="analysisText">
-            Loading your plan...
-          </div>
-
-          <!-- WEALTH CURVE -->
-          <div class="wealth-curve-wrap">
-            <div class="wealth-curve-head">
-              <div class="wealth-curve-title">Projected Path to Goal</div>
-              <div class="wealth-curve-status" id="curveStatus">● On Track</div>
-            </div>
-            <div class="wealth-curve">
-              <svg viewBox="0 0 480 140" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="wealthGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="var(--cyan)" stop-opacity="0.4"/>
-                    <stop offset="100%" stop-color="var(--cyan)" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <!-- Target line -->
-                <line class="wealth-target-line" x1="0" y1="20" x2="480" y2="20"/>
-                <!-- Filled area under curve -->
-                <path id="wealthFill" class="wealth-fill" d=""/>
-                <!-- Curve -->
-                <path id="wealthPath" class="wealth-path" d=""/>
-                <!-- Target dot -->
-                <circle id="wealthDot" class="wealth-target-dot" cx="480" cy="20" r="5"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== EDUCATION / LEARN AS SHE TRADES ===== -->
-<section class="education-section" id="learn">
-  <div class="container">
-    <div class="section-tag reveal">Learn As She Trades</div>
-    <h2 class="section-title reveal">
-      Every move is<br>a <span class="italic">lesson</span>.
-    </h2>
-    <p class="section-sub reveal">
-      Most platforms hide the reasoning. Mariah does the opposite — every trade comes with the "why," the data behind it, and the concept it's built on. You don't just compound capital. You compound knowledge.
-    </p>
-
-    <div class="edu-grid reveal">
-      <!-- LEFT: Pillars -->
-      <div class="edu-pillars">
-        <div class="edu-pillar">
-          <div class="edu-pillar-num">01</div>
-          <div class="edu-pillar-content">
-            <h4>Plain-English reasoning</h4>
-            <p>No charts you can't read. No jargon walls. Mariah explains her thinking the way a smart friend would — and you can ask follow-ups anytime.</p>
-          </div>
-        </div>
-        <div class="edu-pillar">
-          <div class="edu-pillar-num">02</div>
-          <div class="edu-pillar-content">
-            <h4>Concepts on demand</h4>
-            <p>See an unfamiliar term? Tap it. Mariah breaks it down — what it means, why it mattered for this trade, and how to spot it next time.</p>
-          </div>
-        </div>
-        <div class="edu-pillar">
-          <div class="edu-pillar-num">03</div>
-          <div class="edu-pillar-content">
-            <h4>Personal curriculum</h4>
-            <p>Based on the trades she's running for your goals, Mariah suggests short lessons — covering exactly what's relevant to your portfolio right now.</p>
-          </div>
-        </div>
-        <div class="edu-pillar">
-          <div class="edu-pillar-num">04</div>
-          <div class="edu-pillar-content">
-            <h4>Quiz mode</h4>
-            <p>Optional: before she executes, Mariah can ask you what you think. Builds your instincts. Builds your conviction. Builds your edge.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT: Sample lesson card -->
-      <div class="edu-lesson-card">
-        <div class="edu-card-head">
-          <div class="mariah-avatar">M</div>
-          <div class="edu-card-title">Just executed · ETHUSDT</div>
-          <div class="edu-card-tag">Lesson</div>
-        </div>
-
-        <div class="edu-trade-line">
-          <span class="action">BUY · 0.84 ETH</span>
-          <div style="display:flex; gap:16px; align-items:center;">
-            <span class="symbol">@ $3,421</span>
-            <span class="meta">2 min ago</span>
-          </div>
-        </div>
-
-        <div class="edu-explanation">
-          <div class="edu-explanation-label">Why I did this</div>
-          <div class="edu-explanation-text">
-            Ethereum just broke above its <strong>50-day moving average</strong> on volume 1.8x the 30-day average. That's a <strong>breadth-confirmed breakout</strong> — when both price <em>and</em> participation rise together, the move usually has legs.
-            <br><br>
-            For your <strong>Retire by 50</strong> goal, momentum confirmations like this are core inputs. Risk is capped at 2% of the bucket — if I'm wrong, we lose a little. If I'm right, we ride it.
-          </div>
-        </div>
-
-        <div class="edu-concept-tags">
-          <span class="edu-concept">Moving Average</span>
-          <span class="edu-concept">Breakout</span>
-          <span class="edu-concept">Volume Confirmation</span>
-          <span class="edu-concept">Risk Budget</span>
-          <span class="edu-concept">Tap any to learn →</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -8801,130 +8503,6 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 reveals.forEach(r => io.observe(r));
 
-// ===== GOAL BUILDER =====
-const typeBtns = document.querySelectorAll('.type-btn');
-const targetAmt = document.getElementById('targetAmt');
-const startCap = document.getElementById('startCap');
-const timeline = document.getElementById('timeline');
-const risk = document.getElementById('risk');
-const timelineVal = document.getElementById('timelineVal');
-const riskVal = document.getElementById('riskVal');
-const riskLabel = document.getElementById('riskLabel');
-const monthlyReq = document.getElementById('monthlyReq');
-const projReturn = document.getElementById('projReturn');
-const hitProb = document.getElementById('hitProb');
-const strategy = document.getElementById('strategy');
-const analysisText = document.getElementById('analysisText');
-
-let currentType = 'home';
-
-const typeConfig = {
-  home: {
-    name: 'home purchase',
-    strategy: 'Capital-Preserve',
-    voice: (t, m, r) => `For a <strong>home purchase</strong> in ${t} months, I'd run a capital-preserving mix — short-duration treasuries scaling up as we approach close, with growth equities only while there's runway. Risk ${r}/10 keeps us out of trouble when the closing date hits.`
-  },
-  growth: {
-    name: 'wealth growth',
-    strategy: 'Conviction-Weighted',
-    voice: (t, m, r) => `Pure <strong>growth play</strong> over ${t} months. I'll concentrate where conviction is highest — asymmetric setups, momentum names, and selective crypto exposure at risk ${r}/10. Trimming on signal degradation, never on noise.`
-  },
-  fire: {
-    name: 'early retirement',
-    strategy: 'Long-Compound',
-    voice: (t, m, r) => `<strong>Financial independence</strong> in ${t} months. I'll compound aggressively early — broad equity exposure, factor tilts — then glide-path defensive as we close in. Risk ${r}/10 modulates the curve.`
-  },
-  income: {
-    name: 'monthly income',
-    strategy: 'Yield-Targeted',
-    voice: (t, m, r) => `Generating <strong>monthly cashflow</strong> over ${t} months. I'll run covered calls, short-duration credit, and dividend rotation — risk ${r}/10 caps drawdown exposure so the income stays predictable.`
-  }
-};
-
-const riskLabels = {
-  1: 'Very Conservative', 2: 'Conservative', 3: 'Conservative',
-  4: 'Balanced', 5: 'Balanced', 6: 'Balanced',
-  7: 'Aggressive', 8: 'Aggressive', 9: 'Very Aggressive', 10: 'Maximum'
-};
-
-function fmt(n) {
-  return '$' + Math.round(n).toLocaleString();
-}
-
-function recalc() {
-  const target = parseFloat(targetAmt.value) || 0;
-  const start = parseFloat(startCap.value) || 0;
-  const months = parseInt(timeline.value);
-  const r = parseInt(risk.value);
-
-  // Expected annual return based on risk + goal type
-  const baseReturn = {
-    home: 0.04,    // conservative bias
-    growth: 0.10,  // aggressive bias
-    fire: 0.085,   // long horizon compound
-    income: 0.06   // yield-focused
-  }[currentType];
-
-  const annualReturn = baseReturn + (r - 5) * 0.012; // ±6% range across risk
-  const monthlyReturn = annualReturn / 12;
-
-  // Required monthly contribution via future value of annuity
-  // FV = start * (1+r)^n + PMT * (((1+r)^n - 1) / r)
-  const compounded = start * Math.pow(1 + monthlyReturn, months);
-  const needed = target - compounded;
-  let pmt;
-  if (monthlyReturn === 0) {
-    pmt = needed / months;
-  } else {
-    pmt = needed / (((Math.pow(1 + monthlyReturn, months) - 1)) / monthlyReturn);
-  }
-  pmt = Math.max(0, pmt);
-
-  // Hit probability (heuristic — better with longer time + lower risk relative to required return)
-  let prob = 95 - Math.abs(r - 5) * 3;
-  if (months < 18) prob -= 15;
-  if (months < 12) prob -= 10;
-  if (pmt > 5000) prob -= 8;
-  if (pmt > 10000) prob -= 12;
-  prob = Math.max(28, Math.min(96, prob));
-
-  // Update UI
-  monthlyReq.textContent = fmt(pmt);
-  projReturn.textContent = (annualReturn * 100).toFixed(1) + '%';
-  hitProb.textContent = prob + '%';
-  strategy.textContent = typeConfig[currentType].strategy;
-
-  timelineVal.textContent = months >= 12 ? (months / 12).toFixed(months % 12 === 0 ? 0 : 1) + (months >= 24 ? ' yrs' : ' yr') : months;
-  riskVal.textContent = r;
-  riskLabel.textContent = riskLabels[r];
-
-  analysisText.innerHTML = typeConfig[currentType].voice(
-    months >= 12 ? (months / 12).toFixed(months % 12 === 0 ? 0 : 1) + (months >= 24 ? ' years' : ' year') : months + ' months',
-    fmt(pmt),
-    r
-  );
-}
-
-typeBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    typeBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentType = btn.dataset.type;
-
-    // adjust defaults per type
-    if (currentType === 'home') { targetAmt.value = 80000; timeline.value = 24; risk.value = 4; }
-    if (currentType === 'growth') { targetAmt.value = 500000; timeline.value = 120; risk.value = 7; }
-    if (currentType === 'fire') { targetAmt.value = 1500000; timeline.value = 240; risk.value = 6; }
-    if (currentType === 'income') { targetAmt.value = 250000; timeline.value = 60; risk.value = 4; }
-    recalc();
-  });
-});
-
-[targetAmt, startCap, timeline, risk].forEach(el => {
-  el.addEventListener('input', recalc);
-});
-
-recalc();
 
 // ===== WAITLIST =====
 function handleSubmit() {
@@ -9038,104 +8616,6 @@ askInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') askMariah();
 });
 
-// ===== WEALTH CURVE ANIMATION =====
-const wealthPath = document.getElementById('wealthPath');
-const wealthFill = document.getElementById('wealthFill');
-const wealthDot = document.getElementById('wealthDot');
-const curveStatus = document.getElementById('curveStatus');
-
-function drawWealthCurve(start, target, months, annualReturn, hitProb) {
-  if (!wealthPath) return;
-
-  const monthlyReturn = annualReturn / 12;
-  const points = [];
-  const w = 480, h = 140;
-  const padTop = 20;
-  const padBottom = 10;
-  const usableH = h - padTop - padBottom;
-
-  // Generate growth curve points
-  for (let m = 0; m <= months; m++) {
-    const value = start * Math.pow(1 + monthlyReturn, m);
-    points.push({ month: m, value });
-  }
-
-  // Scale: x goes 0 to w, y is inverted (high value = low y)
-  // We always want the curve to hit close to the target visually, so normalize y to target
-  const maxValForScale = Math.max(target, points[points.length - 1].value) * 1.05;
-  const minVal = start * 0.95;
-
-  let pathStr = '';
-  points.forEach((p, i) => {
-    const x = (i / months) * w;
-    const yNorm = (p.value - minVal) / (maxValForScale - minVal);
-    const y = h - padBottom - yNorm * usableH;
-    pathStr += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
-  });
-
-  // Fill area path (close to bottom)
-  const fillStr = pathStr + `L${w},${h} L0,${h} Z`;
-
-  // Reset animation
-  wealthPath.classList.remove('draw');
-  wealthFill.classList.remove('show');
-  wealthDot.classList.remove('show');
-  wealthPath.setAttribute('d', pathStr);
-  wealthFill.setAttribute('d', fillStr);
-
-  // Calculate path length for stroke-dasharray (rough estimate)
-  const pathLength = wealthPath.getTotalLength ? wealthPath.getTotalLength() : 1000;
-  wealthPath.style.strokeDasharray = pathLength;
-  wealthPath.style.strokeDashoffset = pathLength;
-
-  // Trigger animation
-  setTimeout(() => {
-    wealthPath.style.strokeDashoffset = '0';
-    wealthFill.classList.add('show');
-    setTimeout(() => wealthDot.classList.add('show'), 1500);
-  }, 50);
-
-  // Update status based on hit probability
-  if (hitProb >= 85) {
-    curveStatus.textContent = '● On Track';
-    curveStatus.style.color = 'var(--green)';
-  } else if (hitProb >= 65) {
-    curveStatus.textContent = '◐ Tight';
-    curveStatus.style.color = 'var(--amber)';
-  } else {
-    curveStatus.textContent = '○ Stretch Goal';
-    curveStatus.style.color = 'var(--red)';
-  }
-
-  // Success ping on numbers
-  if (hitProb >= 85) {
-    document.querySelectorAll('.proj-value').forEach(el => {
-      el.classList.remove('success-ping');
-      void el.offsetWidth; // force reflow
-      el.classList.add('success-ping');
-    });
-  }
-}
-
-// Hook into existing recalc — wrap the original
-const _originalRecalc = recalc;
-recalc = function() {
-  _originalRecalc.apply(this, arguments);
-  // Now draw curve with current state
-  const target = parseFloat(targetAmt.value) || 0;
-  const start = parseFloat(startCap.value) || 0;
-  const months = parseInt(timeline.value);
-  const r = parseInt(risk.value);
-  const baseReturn = {
-    home: 0.04, growth: 0.10, fire: 0.085, income: 0.06
-  }[currentType];
-  const annualReturn = baseReturn + (r - 5) * 0.012;
-  const prob = parseInt(document.getElementById('hitProb').textContent);
-  drawWealthCurve(start, target, months, annualReturn, prob);
-};
-
-// Trigger curve on initial load
-setTimeout(() => recalc(), 100);
 
 // ===== LIVE WAITLIST COUNTER =====
 const counterNumEl = document.getElementById('counterNum');
@@ -9589,196 +9069,6 @@ if (reactorDial) {
   document.addEventListener('touchend', endDrag);
 }
 
-// ===== PERSONALITY QUIZ =====
-const quizQuestions = [
-  {
-    label: 'Question 1 of 5',
-    question: 'Pick a vibe.',
-    options: [
-      { emoji: '🏔️', label: 'Mountain peak', sub: 'Bold, ambitious', value: 'bold' },
-      { emoji: '🌊', label: 'Steady ocean', sub: 'Patient, deep', value: 'patient' },
-      { emoji: '⚡', label: 'Lightning fast', sub: 'Agile, opportunistic', value: 'fast' },
-      { emoji: '🌳', label: 'Old oak tree', sub: 'Stable, reliable', value: 'stable' }
-    ]
-  },
-  {
-    label: 'Question 2 of 5',
-    question: "What's your money mood?",
-    options: [
-      { emoji: '🚀', label: 'Compound aggressively', sub: 'Long-term growth', value: 'grow' },
-      { emoji: '🏠', label: 'Save for a thing', sub: 'Specific goal', value: 'save' },
-      { emoji: '💸', label: 'Generate income', sub: 'Monthly cashflow', value: 'income' },
-      { emoji: '🌅', label: 'Retire early', sub: 'Hit FIRE', value: 'fire' }
-    ]
-  },
-  {
-    label: 'Question 3 of 5',
-    question: 'A trade drops 15%. You...',
-    options: [
-      { emoji: '😎', label: 'Buy more', sub: 'Sale prices', value: 'risk-high' },
-      { emoji: '🤔', label: 'Hold and watch', sub: "See how it plays", value: 'risk-mid' },
-      { emoji: '😬', label: 'Cut my losses', sub: "Save what's left", value: 'risk-low' },
-      { emoji: '🛌', label: 'Try not to look', sub: 'Trust the plan', value: 'risk-trust' }
-    ]
-  },
-  {
-    label: 'Question 4 of 5',
-    question: 'How much time do you want to spend on this?',
-    options: [
-      { emoji: '🎯', label: 'Set it and forget it', sub: 'Zero daily', value: 'time-zero' },
-      { emoji: '☕', label: 'Morning coffee check', sub: '5 min/day', value: 'time-low' },
-      { emoji: '📈', label: 'A few times a day', sub: 'Stay engaged', value: 'time-mid' },
-      { emoji: '🔥', label: 'I live in markets', sub: 'All day every day', value: 'time-high' }
-    ]
-  },
-  {
-    label: 'Question 5 of 5',
-    question: "What's the dream?",
-    options: [
-      { emoji: '🏝️', label: 'Beach by 40', sub: 'Early retirement', value: 'dream-fire' },
-      { emoji: '🏘️', label: 'Buy a home', sub: 'In a few years', value: 'dream-home' },
-      { emoji: '💼', label: 'Quit my job', sub: 'Live off investments', value: 'dream-income' },
-      { emoji: '🦄', label: 'Generational wealth', sub: 'Long game', value: 'dream-grow' }
-    ]
-  }
-];
-
-const archetypes = {
-  'bold-grow': { name: 'The Calculated Visionary', sub: 'A balanced builder who plays the long game.', goal: 'Grow Wealth', risk: 7, strategy: 'Conviction-Weighted' },
-  'bold-fire': { name: 'The Fire Walker', sub: 'High aspirations. Aggressive timeline. No fear.', goal: 'Retire Early', risk: 8, strategy: 'Long-Compound' },
-  'bold-income': { name: 'The Cashflow Architect', sub: 'You want money making money — now.', goal: 'Monthly Income', risk: 7, strategy: 'Yield-Targeted' },
-  'bold-save': { name: 'The Power Saver', sub: 'Big goals on a clock. You move fast.', goal: 'Buy a Home', risk: 5, strategy: 'Capital-Preserve' },
-  'patient-grow': { name: 'The Quiet Compounder', sub: 'Slow, steady, and unstoppable over time.', goal: 'Grow Wealth', risk: 5, strategy: 'Diversified' },
-  'patient-fire': { name: 'The Long Hauler', sub: "You've done the math. You're playing it perfectly.", goal: 'Retire Early', risk: 5, strategy: 'Long-Compound' },
-  'patient-save': { name: 'The Pragmatic Builder', sub: 'Goals on deadlines. Capital that shows up.', goal: 'Buy a Home', risk: 4, strategy: 'Capital-Preserve' },
-  'patient-income': { name: 'The Patient Yielder', sub: 'Steady cashflow without surprises.', goal: 'Monthly Income', risk: 4, strategy: 'Yield-Targeted' },
-  'fast-grow': { name: 'The Edge Hunter', sub: 'You spot opportunity and you move.', goal: 'Grow Wealth', risk: 8, strategy: 'Conviction-Weighted' },
-  'fast-income': { name: 'The Active Yielder', sub: 'You want your money working — and you want to watch.', goal: 'Monthly Income', risk: 6, strategy: 'Yield-Targeted' },
-  'fast-fire': { name: 'The Accelerator', sub: 'You see the finish line and you sprint.', goal: 'Retire Early', risk: 8, strategy: 'Long-Compound' },
-  'fast-save': { name: 'The Sprinter', sub: 'Short timeline. High intensity. Get it done.', goal: 'Buy a Home', risk: 6, strategy: 'Capital-Preserve' },
-  'stable-save': { name: 'The Guardian', sub: 'Capital preservation first. Returns second.', goal: 'Buy a Home', risk: 3, strategy: 'Capital-Preserve' },
-  'stable-grow': { name: 'The Steady Growth Strategist', sub: 'You compound — and you sleep at night.', goal: 'Grow Wealth', risk: 5, strategy: 'Diversified' },
-  'stable-fire': { name: 'The Disciplined Dreamer', sub: 'Big dreams. Calm execution.', goal: 'Retire Early', risk: 5, strategy: 'Long-Compound' },
-  'stable-income': { name: 'The Income Steward', sub: 'You want monthly cashflow without the rollercoaster.', goal: 'Monthly Income', risk: 4, strategy: 'Yield-Targeted' },
-  'default': { name: 'The Multi-Goal Mastermind', sub: 'You want it all — and Mariah can deliver it.', goal: 'Grow Wealth', risk: 6, strategy: 'Conviction-Weighted' }
-};
-
-let quizStep = 0;
-let quizAnswers = [];
-
-const quizActive = document.getElementById('quizActive');
-const quizResult = document.getElementById('quizResult');
-const quizProgress = document.getElementById('quizProgress');
-const quizStepLabel = document.getElementById('quizStepLabel');
-const quizQuestionEl = document.getElementById('quizQuestion');
-const quizOptionsEl = document.getElementById('quizOptions');
-
-function renderQuizStep(idx) {
-  const q = quizQuestions[idx];
-  if (!q) return finalizeQuiz();
-  quizStepLabel.textContent = q.label;
-  quizQuestionEl.textContent = q.question;
-  quizOptionsEl.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'quiz-option';
-    btn.innerHTML = `
-      <span class="quiz-option-emoji">${opt.emoji}</span>
-      <div>
-        <div class="quiz-option-label">${opt.label}</div>
-        <div class="quiz-option-sub">${opt.sub}</div>
-      </div>
-    `;
-    btn.addEventListener('click', () => selectQuizOption(opt.value, btn));
-    quizOptionsEl.appendChild(btn);
-  });
-  const steps = quizProgress.querySelectorAll('.quiz-progress-step');
-  steps.forEach((s, i) => {
-    s.classList.remove('active', 'done');
-    if (i < idx) s.classList.add('done');
-    if (i === idx) s.classList.add('active');
-  });
-}
-
-function selectQuizOption(value, btnEl) {
-  btnEl.classList.add('selected');
-  quizAnswers.push(value);
-  setTimeout(() => {
-    quizStep++;
-    if (quizStep < quizQuestions.length) {
-      renderQuizStep(quizStep);
-    } else {
-      finalizeQuiz();
-    }
-  }, 360);
-}
-
-function finalizeQuiz() {
-  const vibe = quizAnswers[0];
-  const mood = quizAnswers[1];
-  const dream = quizAnswers[4];
-  const key = `${vibe}-${mood}`;
-  const archetype = archetypes[key] || archetypes['default'];
-
-  let suggestedGoal = archetype.goal;
-  if (dream === 'dream-fire') suggestedGoal = 'Retire Early';
-  if (dream === 'dream-home') suggestedGoal = 'Buy a Home';
-  if (dream === 'dream-income') suggestedGoal = 'Monthly Income';
-  if (dream === 'dream-grow') suggestedGoal = 'Grow Wealth';
-
-  document.getElementById('archetypeName').textContent = archetype.name;
-  document.getElementById('archetypeSub').textContent = archetype.sub;
-  document.getElementById('archetypeGoal').textContent = suggestedGoal;
-  document.getElementById('archetypeRisk').textContent = archetype.risk + '/10';
-  document.getElementById('archetypeStrategy').textContent = archetype.strategy;
-
-  window._archetypePrefs = { goal: suggestedGoal, risk: archetype.risk };
-
-  const steps = quizProgress.querySelectorAll('.quiz-progress-step');
-  steps.forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
-
-  quizActive.style.display = 'none';
-  quizResult.classList.add('show');
-}
-
-function quizRestart() {
-  quizStep = 0;
-  quizAnswers = [];
-  quizActive.style.display = '';
-  quizResult.classList.remove('show');
-  renderQuizStep(0);
-}
-
-function quizToBuilder() {
-  const prefs = window._archetypePrefs;
-  if (prefs) {
-    const goalMap = {
-      'Buy a Home': 'home',
-      'Grow Wealth': 'growth',
-      'Retire Early': 'fire',
-      'Monthly Income': 'income'
-    };
-    const targetType = goalMap[prefs.goal] || 'growth';
-    const btn = document.querySelector(`.type-btn[data-type="${targetType}"]`);
-    if (btn) btn.click();
-    setTimeout(() => {
-      document.getElementById('risk').value = prefs.risk;
-      document.getElementById('risk').dispatchEvent(new Event('input'));
-    }, 300);
-  }
-  document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
-}
-
-const quizObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting && !window._quizInit) {
-      window._quizInit = true;
-      renderQuizStep(0);
-    }
-  });
-}, { threshold: 0.2 });
-const quizSection = document.getElementById('quiz');
-if (quizSection) quizObserver.observe(quizSection);
 
 // ===== PROFILE / FINANCIAL INSIGHT =====
 const banks = [
@@ -10094,29 +9384,6 @@ function showAnalysis(data) {
   }, 200);
 }
 
-function applyProfileToBuilder() {
-  const data = window._profileData;
-  if (data && data.monthlySavings > 0) {
-    // Switch builder to growth, scroll there
-    const btn = document.querySelector('.type-btn[data-type="growth"]');
-    if (btn) btn.click();
-    // Reasonable target based on 10yr compound
-    setTimeout(() => {
-      const targetEl = document.getElementById('targetAmt');
-      if (targetEl) {
-        targetEl.value = Math.max(50000, Math.round(data.payoff / 1000) * 1000);
-        targetEl.dispatchEvent(new Event('input'));
-      }
-      const timelineEl = document.getElementById('timeline');
-      if (timelineEl) {
-        timelineEl.value = 120;
-        timelineEl.dispatchEvent(new Event('input'));
-      }
-    }, 300);
-  }
-  document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
-}
-
 function resetProfile() {
   document.getElementById('profileAnalysis').classList.remove('show');
   switchMode('bank');
@@ -10125,29 +9392,22 @@ function resetProfile() {
 
 // ===== ONRAMP ROUTING =====
 function routeOnramp(choice) {
-  // Subtle UX: briefly flash a "Mariah is routing you..." or similar feel
-  // For now, just smooth-scroll to the right section based on choice
+  // Routes the user to the most relevant section based on their stated context
 
   if (choice === 'disappear') {
-    // Find the leaks → Profile section, default to Manual mode so they can see where money goes
+    // Find the leaks → Profile section, Manual mode shows them where money goes
     setTimeout(() => switchMode('manual'), 600);
     document.getElementById('profile').scrollIntoView({ behavior: 'smooth' });
   } else if (choice === 'invest') {
-    // Build a plan → Goal Builder, default to Growth
-    setTimeout(() => {
-      const btn = document.querySelector('.type-btn[data-type="growth"]');
-      if (btn) btn.click();
-    }, 600);
-    document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+    // Build a plan → Profile (bank link is the fastest path to a real plan)
+    setTimeout(() => switchMode('bank'), 600);
+    document.getElementById('profile').scrollIntoView({ behavior: 'smooth' });
   } else if (choice === 'saving') {
-    // Set a goal → Profile (manual makes more sense, they can set a target)
-    setTimeout(() => {
-      const btn = document.querySelector('.type-btn[data-type="home"]');
-      if (btn) btn.click();
-    }, 600);
-    document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+    // Set a goal → Profile, manual entry so they can model the savings
+    setTimeout(() => switchMode('manual'), 600);
+    document.getElementById('profile').scrollIntoView({ behavior: 'smooth' });
   } else if (choice === 'explore') {
-    // Take the tour → Reactor (the wow factor)
+    // Take the tour → Reactor Core (the wow factor)
     document.getElementById('reactor').scrollIntoView({ behavior: 'smooth' });
   }
 }
