@@ -814,35 +814,528 @@ nav {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 20px;
 }
+
 .feature {
-  border: 1px solid var(--line);
-  padding: 32px 28px;
-  transition: all 0.3s;
-  background: var(--bg);
+  position: relative;
+  border: none;
+  padding: 32px 28px 28px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.015) 0%, transparent 100%);
+  overflow: hidden;
+  cursor: default;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
 }
+
+/* Subtle dot pattern background */
+.feature::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  z-index: 0;
+}
+
+/* Hairline border using box-shadow (lighter than border) */
+.feature::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  pointer-events: none;
+  z-index: 1;
+  transition: box-shadow 0.4s;
+}
+
+/* Corner brackets — HUD style */
+.feature-corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.feature-corners span {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--cyan);
+  border-style: solid;
+  opacity: 0.4;
+  transition: opacity 0.4s, width 0.4s, height 0.4s;
+}
+.feature-corners span:nth-child(1) {
+  top: 0; left: 0;
+  border-width: 1.5px 0 0 1.5px;
+}
+.feature-corners span:nth-child(2) {
+  top: 0; right: 0;
+  border-width: 1.5px 1.5px 0 0;
+}
+.feature-corners span:nth-child(3) {
+  bottom: 0; left: 0;
+  border-width: 0 0 1.5px 1.5px;
+}
+.feature-corners span:nth-child(4) {
+  bottom: 0; right: 0;
+  border-width: 0 1.5px 1.5px 0;
+}
+
 .feature:hover {
-  border-color: var(--line-2);
-  background: var(--panel);
-  transform: translateY(-4px);
+  background: linear-gradient(180deg, rgba(0,229,255,0.04) 0%, rgba(0,229,255,0.01) 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,229,255,0.06);
 }
+.feature:hover::before { opacity: 0.7; }
+.feature:hover::after {
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.15);
+}
+.feature:hover .feature-corners span {
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+}
+
+/* Update icon badge to use corner-bracket aesthetic too */
+.feature-badge {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  background: rgba(0,229,255,0.04);
+  transition: all 0.4s;
+  z-index: 3;
+}
+.feature-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.2);
+  transition: box-shadow 0.4s;
+}
+.feature-badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,229,255,0.25), transparent 70%);
+  opacity: 0.5;
+  transition: opacity 0.4s;
+}
+.feature:hover .feature-badge {
+  background: rgba(0,229,255,0.12);
+  box-shadow: 0 0 32px rgba(0,229,255,0.3);
+  transform: scale(1.05);
+}
+.feature:hover .feature-badge::before {
+  box-shadow: inset 0 0 0 1px var(--cyan);
+}
+.feature:hover .feature-badge::after { opacity: 1; }
+
 .feature-icon {
-  width: 40px; height: 40px;
-  margin-bottom: 24px;
+  width: 26px;
+  height: 26px;
   color: var(--cyan);
+  position: relative;
+  z-index: 2;
+  transition: transform 0.4s;
 }
+.feature:hover .feature-icon { transform: scale(1.1); }
+
+/* Card text */
 .feature h3 {
   font-family: var(--display);
   font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-bottom: 12px;
+  position: relative;
+  z-index: 3;
 }
 .feature p {
   font-size: 14px;
   color: var(--text-dim);
   line-height: 1.6;
+  position: relative;
+  z-index: 3;
+  margin-bottom: 20px;
+}
+
+/* Micro-demo area at the bottom of each card */
+.feature-demo {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  z-index: 3;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+}
+
+/* Category divider */
+.features-category-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0 -4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.features-category-divider::before, .features-category-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-2), transparent);
+}
+
+/* ===== Card-specific demo animations ===== */
+
+/* Plain-English: typing dots */
+.demo-typing {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.demo-typing .word {
+  opacity: 0;
+  color: var(--text);
+  animation: demoTypeWord 5s infinite;
+}
+.demo-typing .word:nth-child(1) { animation-delay: 0.2s; }
+.demo-typing .word:nth-child(2) { animation-delay: 0.6s; }
+.demo-typing .word:nth-child(3) { animation-delay: 1.0s; }
+.demo-typing .word:nth-child(4) { animation-delay: 1.4s; color: var(--cyan); }
+.demo-typing .cursor {
+  width: 6px;
+  height: 12px;
+  background: var(--cyan);
+  animation: blink 0.8s infinite;
+}
+@keyframes demoTypeWord {
+  0%, 5% { opacity: 0; transform: translateY(4px); }
+  10%, 75% { opacity: 1; transform: translateY(0); }
+  85%, 100% { opacity: 0; }
+}
+
+/* Deadline: countdown */
+.demo-countdown {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.demo-countdown .num {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: -0.02em;
+}
+.demo-countdown .unit {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.demo-countdown .sep { color: var(--text-faint); }
+.demo-countdown .seconds {
+  display: inline-block;
+  animation: pulseSec 1s infinite;
+  min-width: 24px;
+}
+@keyframes pulseSec {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Multi-goal: stacked progress bars */
+.demo-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.demo-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.demo-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
+  transform-origin: left;
+  animation: barFill 4s infinite;
+}
+.demo-bar:nth-child(1)::after { animation-delay: 0s; }
+.demo-bar:nth-child(2)::after { animation-delay: 0.3s; animation-duration: 4.2s; }
+.demo-bar:nth-child(3)::after { animation-delay: 0.6s; animation-duration: 3.8s; }
+@keyframes barFill {
+  0% { transform: scaleX(0); }
+  60%, 90% { transform: scaleX(0.85); }
+  100% { transform: scaleX(0.85); }
+}
+
+/* Wallet: keyhole secure */
+.demo-secure {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.demo-secure-icon {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--cyan);
+  border-radius: 50%;
+  position: relative;
+  animation: secureRing 2.5s infinite;
+}
+.demo-secure-icon::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.6;
+  animation: securePulse 2.5s infinite;
+}
+@keyframes secureRing {
+  0%, 100% { box-shadow: 0 0 0 0 var(--cyan-glow); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+@keyframes securePulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.demo-secure-text {
+  color: var(--cyan);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Continuous reasoning: scrolling stream */
+.demo-stream {
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(180deg, transparent, black 30%, black 70%, transparent);
+}
+.demo-stream-list {
+  animation: streamScroll 8s linear infinite;
+}
+.demo-stream-item {
+  padding: 4px 0;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.demo-stream-item .dot { color: var(--cyan); }
+@keyframes streamScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-180px); }
+}
+
+/* Override: toggle */
+.demo-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.demo-toggle-switch {
+  width: 36px;
+  height: 18px;
+  background: rgba(0,229,255,0.15);
+  border: 1px solid var(--cyan);
+  border-radius: 100px;
+  position: relative;
+  animation: toggleSwitch 3s infinite;
+}
+.demo-toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--cyan);
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  animation: toggleSlide 3s infinite;
+  box-shadow: 0 0 8px var(--cyan-glow);
+}
+@keyframes toggleSlide {
+  0%, 40% { left: 2px; }
+  50%, 90% { left: 20px; }
+  100% { left: 2px; }
+}
+@keyframes toggleSwitch {
+  0%, 40% { background: rgba(255,255,255,0.06); border-color: var(--line-2); }
+  50%, 90% { background: rgba(0,229,255,0.15); border-color: var(--cyan); }
+}
+.demo-toggle-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Tax-loss harvest: red→green pair flash */
+.demo-harvest {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+.demo-harvest-pair {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.demo-harvest-loss {
+  color: #f87171;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  animation: harvestLoss 4s infinite;
+}
+.demo-harvest-gain {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  animation: harvestGain 4s infinite;
+}
+.demo-harvest-arrow {
+  color: var(--text-faint);
+  font-size: 14px;
+  animation: harvestArrow 4s infinite;
+}
+@keyframes harvestLoss {
+  0%, 10% { opacity: 0; transform: translateX(-4px); }
+  20%, 50% { opacity: 1; transform: translateX(0); }
+  60%, 100% { opacity: 0.3; }
+}
+@keyframes harvestArrow {
+  0%, 40% { opacity: 0; }
+  50%, 70% { opacity: 1; }
+  80%, 100% { opacity: 0.3; }
+}
+@keyframes harvestGain {
+  0%, 60% { opacity: 0; transform: translateX(-4px); }
+  70%, 90% { opacity: 1; transform: translateX(0); text-shadow: 0 0 8px var(--cyan-glow); }
+  100% { opacity: 0.3; }
+}
+
+/* Wash-sale: calendar 30-day window */
+.demo-calendar {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  width: 100%;
+}
+.demo-cal-day {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+}
+.demo-cal-day.in-window {
+  background: var(--cyan);
+  opacity: 0.3;
+  animation: calWindow 3s infinite;
+}
+@keyframes calWindow {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.7; box-shadow: 0 0 4px var(--cyan); }
+}
+.demo-cal-day.trade {
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: calTrade 3s infinite;
+}
+@keyframes calTrade {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.5); }
+}
+
+/* Long-term holding: timeline */
+.demo-timeline {
+  width: 100%;
+  position: relative;
+  height: 24px;
+}
+.demo-timeline-track {
+  position: absolute;
+  top: 11px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+}
+.demo-timeline-fill {
+  position: absolute;
+  top: 11px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
+  animation: timelineFill 5s infinite;
+  box-shadow: 0 0 6px var(--cyan-glow);
+}
+@keyframes timelineFill {
+  0% { width: 0%; }
+  60% { width: 65%; }
+  75%, 100% { width: 95%; }
+}
+.demo-timeline-marker {
+  position: absolute;
+  top: 4px;
+  left: 65%;
+  width: 1px;
+  height: 16px;
+  background: rgba(255,255,255,0.3);
+}
+.demo-timeline-marker::after {
+  content: '1Y';
+  position: absolute;
+  top: -14px;
+  left: -8px;
+  font-size: 9px;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+}
+.demo-timeline-flag {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  animation: timelineFlag 5s infinite;
+}
+@keyframes timelineFlag {
+  0% { left: 0%; opacity: 1; }
+  60% { left: 64%; opacity: 1; }
+  75%, 100% { left: 94%; opacity: 1; transform: scale(1.3); }
 }
 
 @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -1989,22 +2482,6 @@ nav {
 }
 .wealth-target-dot.show { opacity: 1; }
 
-/* Confetti burst */
-.confetti-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  overflow: hidden;
-}
-.confetti-piece {
-  position: absolute;
-  width: 8px;
-  height: 12px;
-  background: var(--cyan);
-  opacity: 0;
-}
-
 /* Success ping animation in goal builder */
 @keyframes successPing {
   0% { transform: scale(1); }
@@ -2898,90 +3375,185 @@ footer {
     </p>
 
     <div class="features-grid reveal">
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M8 20L16 28L32 12"/>
-        </svg>
+
+      <!-- === CORE CAPABILITIES === -->
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 20L16 28L32 12"/>
+          </svg>
+        </div>
         <h3>Plain-English briefings</h3>
         <p>No jargon walls. Every trade comes with a one-line "why" — and you can ask follow-ups like you're texting a friend.</p>
+        <div class="feature-demo">
+          <div class="demo-typing">
+            <span class="word">Trimmed</span>
+            <span class="word">BTC</span>
+            <span class="word">because</span>
+            <span class="word">vol↑</span>
+            <span class="cursor"></span>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="20" cy="20" r="14"/>
-          <path d="M20 12V20L26 24"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="20" cy="20" r="14"/>
+            <path d="M20 12V20L26 24"/>
+          </svg>
+        </div>
         <h3>Deadline-aware strategy</h3>
         <p>14 months to the down payment? She derisks capital as you approach. Time horizon isn't an afterthought — it's the input.</p>
+        <div class="feature-demo">
+          <div class="demo-countdown">
+            <span class="num">14</span><span class="unit">mo</span>
+            <span class="sep">·</span>
+            <span class="num">06</span><span class="unit">d</span>
+            <span class="sep">·</span>
+            <span class="num seconds" id="demoSec">42</span><span class="unit">s</span>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="6" y="6" width="12" height="12"/>
-          <rect x="22" y="6" width="12" height="12"/>
-          <rect x="6" y="22" width="12" height="12"/>
-          <rect x="22" y="22" width="12" height="12"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="6" width="12" height="12"/>
+            <rect x="22" y="6" width="12" height="12"/>
+            <rect x="6" y="22" width="12" height="12"/>
+            <rect x="22" y="22" width="12" height="12"/>
+          </svg>
+        </div>
         <h3>Multi-goal balancing</h3>
         <p>Running five goals at once? Mariah optimizes across all of them — capital allocated where it does the most for the whole plan.</p>
+        <div class="feature-demo">
+          <div class="demo-bars">
+            <div class="demo-bar"></div>
+            <div class="demo-bar"></div>
+            <div class="demo-bar"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M10 32V14L20 8L30 14V32"/>
-          <path d="M16 32V22H24V32"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M10 32V14L20 8L30 14V32"/>
+            <path d="M16 32V22H24V32"/>
+          </svg>
+        </div>
         <h3>Your wallet, your keys</h3>
         <p>Non-custodial from day one. Mariah executes through your wallet — she never holds your funds, and you can override anytime.</p>
+        <div class="feature-demo">
+          <div class="demo-secure">
+            <div class="demo-secure-icon"></div>
+            <span class="demo-secure-text">Secure · Self-Custody</span>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M8 12H32M8 20H32M8 28H32"/>
-          <circle cx="14" cy="12" r="2" fill="currentColor"/>
-          <circle cx="24" cy="20" r="2" fill="currentColor"/>
-          <circle cx="18" cy="28" r="2" fill="currentColor"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 12H32M8 20H32M8 28H32"/>
+            <circle cx="14" cy="12" r="2" fill="currentColor"/>
+            <circle cx="24" cy="20" r="2" fill="currentColor"/>
+            <circle cx="18" cy="28" r="2" fill="currentColor"/>
+          </svg>
+        </div>
         <h3>Continuous reasoning</h3>
         <p>She's not on a 5-minute polling job. Mariah reasons through new information the moment it arrives — and decides whether to act.</p>
+        <div class="feature-demo">
+          <div class="demo-stream">
+            <div class="demo-stream-list">
+              <div class="demo-stream-item"><span class="dot">●</span> Funding rate shifting</div>
+              <div class="demo-stream-item"><span class="dot">●</span> SPY breadth expanding</div>
+              <div class="demo-stream-item"><span class="dot">●</span> BTC vol normalizing</div>
+              <div class="demo-stream-item"><span class="dot">●</span> NVDA earnings 11d</div>
+              <div class="demo-stream-item"><span class="dot">●</span> ETH momentum confirmed</div>
+              <div class="demo-stream-item"><span class="dot">●</span> Funding rate shifting</div>
+              <div class="demo-stream-item"><span class="dot">●</span> SPY breadth expanding</div>
+              <div class="demo-stream-item"><span class="dot">●</span> BTC vol normalizing</div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M20 6L26 14H22V26H18V14H14L20 6Z" fill="currentColor"/>
-          <path d="M8 30H32V34H8V30Z"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 6L26 14H22V26H18V14H14L20 6Z" fill="currentColor"/>
+            <path d="M8 30H32V34H8V30Z"/>
+          </svg>
+        </div>
         <h3>Override, anytime</h3>
         <p>Disagree with a call? Veto it. Pause her. Take over manually. She learns from your overrides and adjusts the plan.</p>
+        <div class="feature-demo">
+          <div class="demo-toggle">
+            <div class="demo-toggle-switch"></div>
+            <span class="demo-toggle-label">Auto · Manual override</span>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 8H28L32 14V32H8V14L12 8Z"/>
-          <path d="M14 20H26M14 26H22"/>
-          <circle cx="20" cy="14" r="1.5" fill="currentColor"/>
-        </svg>
+      <!-- === TAX OPTIMIZATION CATEGORY === -->
+      <div class="features-category-divider">Tax Optimization</div>
+
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 8H28L32 14V32H8V14L12 8Z"/>
+            <path d="M14 20H26M14 26H22"/>
+            <circle cx="20" cy="14" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
         <h3>Tax-loss harvesting</h3>
         <p>Mariah books strategic losses to offset gains — automatically, year-round. She tracks every lot and times exits to keep more of your returns yours.</p>
+        <div class="feature-demo">
+          <div class="demo-harvest">
+            <div class="demo-harvest-pair">
+              <span class="demo-harvest-loss">−$1,240</span>
+              <span class="demo-harvest-arrow">→</span>
+              <span class="demo-harvest-gain">+$1,240 offset</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="20" cy="20" r="14"/>
-          <path d="M14 14L26 26M26 14L14 26"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="10" width="28" height="22" rx="1"/>
+            <path d="M6 16H34"/>
+            <path d="M12 6V12M28 6V12"/>
+          </svg>
+        </div>
         <h3>Wash-sale aware</h3>
         <p>She knows the 30-day rule and tracks every position across all your accounts. No accidental wash sales. No surprise tax bills in April.</p>
+        <div class="feature-demo">
+          <div class="demo-calendar" id="demoCalendar"></div>
+        </div>
       </div>
 
-      <div class="feature">
-        <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="8" y="12" width="24" height="20" rx="2"/>
-          <path d="M14 8V14M26 8V14M8 20H32"/>
-          <path d="M14 26L18 30L26 22"/>
-        </svg>
+      <div class="feature"><div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="feature-badge">
+          <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="8" y="12" width="24" height="20" rx="2"/>
+            <path d="M14 8V14M26 8V14M8 20H32"/>
+            <path d="M14 26L18 30L26 22"/>
+          </svg>
+        </div>
         <h3>Long-term holding bias</h3>
         <p>Where the strategy allows, Mariah holds positions past the 1-year line to capture long-term capital gains rates — often saving more than the trade itself made.</p>
+        <div class="feature-demo">
+          <div class="demo-timeline">
+            <div class="demo-timeline-track"></div>
+            <div class="demo-timeline-fill"></div>
+            <div class="demo-timeline-marker"></div>
+            <div class="demo-timeline-flag"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -3395,9 +3967,6 @@ function handleSubmit() {
 
   document.getElementById('waitForm').style.display = 'none';
   document.getElementById('waitSuccess').classList.add('show');
-
-  // Fire confetti on signup
-  fireConfetti();
 }
 
 // ===== ASK MARIAH (DEMO) =====
@@ -3559,13 +4128,6 @@ function drawWealthCurve(start, target, months, annualReturn, hitProb) {
     curveStatus.style.color = 'var(--red)';
   }
 
-  // Confetti on hit
-  if (hitProb >= 90 && !window._didConfetti) {
-    window._didConfetti = true;
-    setTimeout(() => fireConfetti(), 1800);
-    setTimeout(() => { window._didConfetti = false; }, 8000);
-  }
-
   // Success ping on numbers
   if (hitProb >= 85) {
     document.querySelectorAll('.proj-value').forEach(el => {
@@ -3595,49 +4157,6 @@ recalc = function() {
 
 // Trigger curve on initial load
 setTimeout(() => recalc(), 100);
-
-// ===== CONFETTI =====
-function fireConfetti() {
-  const container = document.createElement('div');
-  container.className = 'confetti-container';
-  document.body.appendChild(container);
-
-  const colors = ['#00e5ff', '#4ade80', '#ffb547', '#ff2e8a', '#ffffff'];
-  const count = 80;
-
-  for (let i = 0; i < count; i++) {
-    const piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const startX = 50 + (Math.random() - 0.5) * 40; // start near center
-    const drift = (Math.random() - 0.5) * 600;
-    const duration = 1800 + Math.random() * 1500;
-    const delay = Math.random() * 200;
-    const rotation = Math.random() * 720;
-    const size = 6 + Math.random() * 8;
-
-    piece.style.cssText = `
-      left: ${startX}vw;
-      top: 40vh;
-      background: ${color};
-      width: ${size}px;
-      height: ${size * 1.5}px;
-      transform: translate(0,0) rotate(0deg);
-      opacity: 1;
-      transition: transform ${duration}ms cubic-bezier(0.2,0.7,0.3,1), opacity ${duration}ms ease-out;
-      transition-delay: ${delay}ms;
-    `;
-
-    container.appendChild(piece);
-
-    requestAnimationFrame(() => {
-      piece.style.transform = `translate(${drift}px, ${window.innerHeight + 100}px) rotate(${rotation}deg)`;
-      piece.style.opacity = '0';
-    });
-  }
-
-  setTimeout(() => container.remove(), 4000);
-}
 
 // ===== LIVE WAITLIST COUNTER =====
 const counterNumEl = document.getElementById('counterNum');
@@ -3675,6 +4194,31 @@ const waitlistObserver = new IntersectionObserver((entries) => {
 
 const waitlistSection = document.getElementById('waitlist');
 if (waitlistSection) waitlistObserver.observe(waitlistSection);
+
+// ===== FEATURE CARD DEMOS =====
+// Build the wash-sale calendar dot grid (30 days, with trade markers and window highlight)
+const demoCalendar = document.getElementById('demoCalendar');
+if (demoCalendar) {
+  for (let i = 0; i < 30; i++) {
+    const day = document.createElement('div');
+    day.className = 'demo-cal-day';
+    // First trade marker on day 4
+    if (i === 4) day.className += ' trade';
+    // The 30-day wash sale window after the trade
+    else if (i > 4 && i <= 28) day.className += ' in-window';
+    demoCalendar.appendChild(day);
+  }
+}
+
+// Live-ticking seconds for the deadline countdown demo
+const demoSec = document.getElementById('demoSec');
+if (demoSec) {
+  let s = 42;
+  setInterval(() => {
+    s = (s - 1 + 60) % 60;
+    demoSec.textContent = s.toString().padStart(2, '0');
+  }, 1000);
+}
 
 // ===== REACTOR CORE =====
 // Build dial ticks
