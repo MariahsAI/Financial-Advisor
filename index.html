@@ -6484,6 +6484,186 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   .escalation-content p { font-size: 13px; }
 }
 
+/* === HOW MARIAH SEES IT (Detection visual) === */
+.detection-visual {
+  margin: 36px 0 0;
+  padding: 24px 24px 22px;
+  background: rgba(0,229,255,0.03);
+  position: relative;
+}
+.detection-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.15);
+  pointer-events: none;
+}
+
+.detection-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.detection-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.detection-title::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulse 1.8s infinite;
+}
+.detection-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.detection-flow {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+.detection-box {
+  padding: 14px 14px 12px;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+  min-height: 100px;
+}
+.detection-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.detection-box.output {
+  background: rgba(0,229,255,0.06);
+}
+.detection-box.output::before {
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.3);
+}
+
+.detection-box-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+}
+.detection-box.output .detection-box-label {
+  color: var(--cyan);
+}
+
+.detection-box pre {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.detection-box.output pre {
+  color: var(--text);
+}
+.detection-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 0;
+}
+.detection-row span:first-child {
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+.detection-row span:last-child {
+  color: var(--text);
+  text-align: right;
+  font-weight: 500;
+}
+.detection-row.alert span:last-child {
+  color: var(--magenta);
+}
+
+/* Animated arrow */
+.detection-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: var(--cyan);
+}
+.detection-arrow::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  transform: translateY(-50%);
+}
+.detection-arrow-symbol {
+  background: rgba(5,6,8,0.95);
+  padding: 4px 6px;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--cyan);
+  position: relative;
+  z-index: 2;
+}
+
+.detection-footnote {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: center;
+}
+.detection-footnote .key {
+  color: var(--cyan);
+}
+
+@media (max-width: 700px) {
+  .detection-flow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .detection-arrow {
+    height: 28px;
+  }
+  .detection-arrow::before {
+    left: 50%;
+    right: auto;
+    top: 0; bottom: 0;
+    height: 100%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--cyan), transparent);
+    transform: translateX(-50%);
+  }
+  .detection-arrow-symbol {
+    transform: rotate(90deg);
+  }
+  .detection-box { min-height: auto; }
+}
+
 /* ============ FOOTER ============ */
 footer {
   border-top: 1px solid var(--line);
@@ -7769,6 +7949,35 @@ footer {
       </div>
 
     </div>
+
+    <!-- DETECTION VISUAL: How Mariah sees a transaction -->
+    <div class="detection-visual reveal">
+      <div class="detection-head">
+        <div class="detection-title">How Mariah sees a transaction</div>
+        <div class="detection-sub">Live · Plaid-powered</div>
+      </div>
+
+      <div class="detection-flow">
+        <div class="detection-box">
+          <div class="detection-box-label">What your bank sends</div>
+          <pre><div class="detection-row"><span>Amount</span><span>−$47.12</span></div><div class="detection-row"><span>Date</span><span>2026-05-16 15:32</span></div><div class="detection-row"><span>Merchant</span><span>DD *DOORDASH STORE</span></div><div class="detection-row"><span>Source</span><span>Chase ••4521</span></div></pre>
+        </div>
+
+        <div class="detection-arrow">
+          <div class="detection-arrow-symbol">→</div>
+        </div>
+
+        <div class="detection-box output">
+          <div class="detection-box-label">What Mariah sees</div>
+          <pre><div class="detection-row"><span>Brand</span><span>DoorDash</span></div><div class="detection-row"><span>Category</span><span>Food Delivery</span></div><div class="detection-row"><span>Pattern</span><span>Order #8 this month</span></div><div class="detection-row alert"><span>Commitment</span><span>4 over limit ⚠</span></div></pre>
+        </div>
+      </div>
+
+      <div class="detection-footnote">
+        She matches every transaction against the <span class="key">commitments you made</span> in your plan.
+      </div>
+    </div>
+
   </div>
 </section>
 
