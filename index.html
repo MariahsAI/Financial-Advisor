@@ -3416,6 +3416,32 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   padding: 48px 40px;
   overflow: hidden;
 }
+
+@media (max-width: 640px) {
+  .profile-workspace {
+    padding: 32px 18px;
+  }
+  .profile-section {
+    padding: 80px 0;
+  }
+  .profile-title {
+    font-size: 36px;
+    line-height: 1.05;
+  }
+  .profile-sub {
+    font-size: 15px;
+    margin-bottom: 36px;
+  }
+  .mode-card {
+    padding: 22px 20px;
+  }
+  .mode-card-title {
+    font-size: 16px;
+  }
+  .mode-card-desc {
+    font-size: 12.5px;
+  }
+}
 .profile-workspace .feature-corners {
   position: absolute;
   inset: 0;
@@ -4067,6 +4093,28 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   text-align: right;
 }
 
+@media (max-width: 640px) {
+  .leaks-section {
+    padding: 20px 18px;
+    margin-bottom: 28px;
+  }
+  .leaks-title { font-size: 16px; }
+  .leaks-subtitle { font-size: 9px; }
+  .leak-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .leak-name { font-size: 13.5px; }
+  .leak-note { font-size: 11.5px; line-height: 1.4; }
+  .leak-amount { font-size: 18px; }
+  .leak-amount-sub { text-align: left; }
+  .leak-item > div:last-child {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+}
+
 /* The Mariah recommendation box */
 .mariah-rec {
   position: relative;
@@ -4095,6 +4143,14 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   color: var(--text);
 }
 .rec-text strong { color: var(--cyan); font-weight: 500; }
+
+@media (max-width: 640px) {
+  .mariah-rec {
+    padding: 22px 20px 22px 22px;
+    margin-bottom: 24px;
+  }
+  .rec-text { font-size: 14.5px; line-height: 1.6; }
+}
 
 /* The big payoff number */
 .payoff-card {
@@ -4132,7 +4188,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 }
 .payoff-value {
   font-family: var(--display);
-  font-size: clamp(56px, 10vw, 112px);
+  font-size: clamp(40px, 9vw, 96px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1;
@@ -4141,6 +4197,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   position: relative;
   z-index: 2;
   margin-bottom: 12px;
+  word-break: break-word;
 }
 .payoff-sub {
   font-family: var(--serif);
@@ -4155,6 +4212,25 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   font-style: normal;
   font-family: var(--display);
   font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .payoff-card {
+    padding: 28px 20px;
+  }
+  .payoff-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+  .payoff-value {
+    font-size: clamp(36px, 11vw, 56px);
+    letter-spacing: -0.03em;
+  }
+  .payoff-sub {
+    font-size: 14px;
+    line-height: 1.5;
+  }
 }
 
 .profile-cta-row {
@@ -4241,6 +4317,40 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
   margin-bottom: 24px;
 }
+
+@media (max-width: 640px) {
+  .plan-card {
+    padding: 28px 20px;
+  }
+  .plan-stepper {
+    margin-bottom: 24px;
+    gap: 6px;
+  }
+  .plan-step-pill {
+    font-size: 9px;
+    padding: 6px 10px;
+    letter-spacing: 0.12em;
+  }
+  .plan-step-arrow {
+    font-size: 10px;
+  }
+  .plan-step-title {
+    font-size: 26px;
+    line-height: 1.15;
+  }
+  .plan-step-sub {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .live-tally {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 18px;
+  }
+  .tally-value {
+    font-size: 28px !important;
+  }
+}
 .plan-card .feature-corners {
   position: absolute;
   inset: 0;
@@ -4317,6 +4427,41 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   opacity: 0.55;
 }
 .toggle-leak.unchecked .toggle-leak-savings { color: var(--text-faint); text-decoration: line-through; }
+
+@media (max-width: 640px) {
+  .toggle-leak {
+    grid-template-columns: 32px 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px 14px;
+    padding: 16px 16px;
+  }
+  .toggle-leak .toggle-checkbox {
+    grid-row: 1 / 3;
+    align-self: start;
+    margin-top: 2px;
+  }
+  .toggle-leak-text {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .toggle-leak > div:last-child {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: left !important;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .toggle-leak-savings {
+    font-size: 18px !important;
+    text-align: left !important;
+  }
+  .toggle-leak-savings-sub {
+    text-align: left !important;
+    margin-top: 0 !important;
+  }
+}
 
 .toggle-checkbox {
   width: 24px;
