@@ -5744,6 +5744,320 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   /* Reactor stops auto-cycling — handled by JS check below */
 }
 
+/* ============ ROADMAP SECTION ============ */
+.roadmap-section {
+  padding: 140px 0;
+  position: relative;
+  background: linear-gradient(180deg, transparent, rgba(0,229,255,0.02) 50%, transparent);
+  overflow: hidden;
+}
+.roadmap-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(0,229,255,0.04), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(0,229,255,0.03), transparent 60%);
+  pointer-events: none;
+}
+
+.roadmap-intro {
+  text-align: center;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 2;
+}
+
+.roadmap-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.roadmap-tag::before, .roadmap-tag::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+}
+
+.roadmap-title {
+  font-family: var(--display);
+  font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 18px;
+}
+.roadmap-title .italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cyan);
+}
+
+.roadmap-sub {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Timeline cards */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.phase-card {
+  position: relative;
+  padding: 32px 28px 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 460px;
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+
+/* Corner brackets */
+.phase-card .feature-corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.phase-card .feature-corners span {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--text-faint);
+  border-style: solid;
+  opacity: 0.4;
+  transition: opacity 0.3s, border-color 0.3s;
+}
+.phase-card .feature-corners span:nth-child(1) { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.phase-card .feature-corners span:nth-child(2) { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.phase-card .feature-corners span:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.phase-card .feature-corners span:nth-child(4) { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+/* Active phase: glowing cyan */
+.phase-card.active {
+  background: linear-gradient(180deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
+  box-shadow: 0 30px 60px rgba(0,229,255,0.08);
+}
+.phase-card.active::before {
+  box-shadow: inset 0 0 0 1.5px var(--cyan);
+}
+.phase-card.active .feature-corners span {
+  border-color: var(--cyan);
+  opacity: 1;
+}
+.phase-card.active::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+/* Phase 02: subtle outline, awake but not active */
+.phase-card.next {
+  background: rgba(255,255,255,0.015);
+}
+.phase-card.next::before {
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+.phase-card.next .feature-corners span {
+  border-color: rgba(255,255,255,0.3);
+  opacity: 0.6;
+}
+
+/* Phase 03: muted */
+.phase-card.future {
+  opacity: 0.7;
+}
+
+/* Header — number + status */
+.phase-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.phase-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.phase-card.active .phase-num { color: var(--cyan); }
+
+.phase-status {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+.phase-status::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px currentColor;
+  opacity: 0.4;
+}
+.phase-status.live {
+  color: var(--cyan);
+}
+.phase-status.live::after {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: pulse 1.8s infinite;
+  margin-right: -2px;
+  order: -1;
+}
+.phase-status.upcoming {
+  color: var(--text-dim);
+}
+.phase-status.future {
+  color: var(--text-faint);
+}
+
+/* Phase headline */
+.phase-headline {
+  margin-bottom: 8px;
+}
+.phase-headline-pretitle {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.phase-card.active .phase-headline-pretitle { color: var(--cyan); }
+
+.phase-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.phase-title .italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cyan);
+}
+
+.phase-tagline {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+.phase-card.active .phase-tagline { color: var(--text); }
+
+/* Feature list */
+.phase-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+.phase-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+.phase-feature::before {
+  content: '✦';
+  color: var(--text-faint);
+  font-size: 10px;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.phase-card.active .phase-feature {
+  color: var(--text);
+}
+.phase-card.active .phase-feature::before {
+  color: var(--cyan);
+  text-shadow: 0 0 6px var(--cyan-glow);
+}
+.phase-card.next .phase-feature::before {
+  color: rgba(255,255,255,0.4);
+}
+
+/* Footer note */
+.roadmap-footnote {
+  text-align: center;
+  margin-top: 56px;
+  position: relative;
+  z-index: 2;
+}
+.roadmap-footnote-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.roadmap-footnote-text strong {
+  color: var(--text);
+  font-style: normal;
+  font-family: var(--display);
+  font-weight: 500;
+}
+.roadmap-disclaimer {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .roadmap-grid { grid-template-columns: 1fr; gap: 16px; }
+  .phase-card { min-height: auto; padding: 28px 24px 26px; }
+  .roadmap-section { padding: 80px 0; }
+}
+
 /* ============ FOOTER ============ */
 footer {
   border-top: 1px solid var(--line);
@@ -5794,6 +6108,7 @@ footer {
       <a href="#features">Capabilities</a>
       <a href="#builder">Try It</a>
       <a href="#learn">Learn</a>
+      <a href="#roadmap">Roadmap</a>
     </div>
     <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Get Access</button>
   </div>
@@ -7507,6 +7822,102 @@ footer {
           <span class="edu-concept">Tap any to learn →</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section class="roadmap-section" id="roadmap">
+  <div class="container">
+    <div class="roadmap-intro reveal">
+      <div class="roadmap-tag">The Roadmap</div>
+      <h2 class="roadmap-title">Mariah is the<br><span class="italic">starting line</span>.</h2>
+      <p class="roadmap-sub">
+        Today she's an autonomous financial advisor. Over the next three years, she becomes your entire money operating system — for life, for business, for everything.
+      </p>
+    </div>
+
+    <div class="roadmap-grid reveal">
+
+      <!-- PHASE 01 — LIVE -->
+      <div class="phase-card active">
+        <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+        <div class="phase-head">
+          <div class="phase-num">Phase 01 · Now</div>
+          <div class="phase-status live">LIVE · BETA Q2 2026</div>
+        </div>
+
+        <div class="phase-headline">
+          <div class="phase-headline-pretitle">Personal</div>
+          <div class="phase-title">The <span class="italic">Mariah</span> Advisor</div>
+          <div class="phase-tagline">Your autonomous AI financial advisor. Find spending leaks, invest the savings, hit your goals.</div>
+        </div>
+
+        <ul class="phase-features">
+          <li class="phase-feature">Spending leak detection · Goal-aware investing</li>
+          <li class="phase-feature">Reactor Core signal engine · Real-time decisions</li>
+          <li class="phase-feature">Tax-loss harvesting · Wash-sale awareness</li>
+          <li class="phase-feature">Non-custodial · Your wallet, your keys</li>
+          <li class="phase-feature">Plain-English briefings on every move</li>
+        </ul>
+      </div>
+
+      <!-- PHASE 02 — NEXT -->
+      <div class="phase-card next">
+        <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+        <div class="phase-head">
+          <div class="phase-num">Phase 02 · Next</div>
+          <div class="phase-status upcoming">Q4 2026 → Q2 2027</div>
+        </div>
+
+        <div class="phase-headline">
+          <div class="phase-headline-pretitle">Personal · Expanded</div>
+          <div class="phase-title">The Mariah <span class="italic">Platform</span></div>
+          <div class="phase-tagline">Beyond investing — your entire financial life, optimized by AI.</div>
+        </div>
+
+        <ul class="phase-features">
+          <li class="phase-feature">Full banking integration · Checking + savings</li>
+          <li class="phase-feature">Credit score insights · Card optimization</li>
+          <li class="phase-feature">Insurance audit · Coverage gap analysis</li>
+          <li class="phase-feature">Multi-account net worth tracking</li>
+          <li class="phase-feature">Real estate portfolio monitoring</li>
+        </ul>
+      </div>
+
+      <!-- PHASE 03 — FUTURE -->
+      <div class="phase-card future">
+        <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
+
+        <div class="phase-head">
+          <div class="phase-num">Phase 03 · Vision</div>
+          <div class="phase-status future">2027+</div>
+        </div>
+
+        <div class="phase-headline">
+          <div class="phase-headline-pretitle">Personal · Business · Ecosystem</div>
+          <div class="phase-title">Mariah for <span class="italic">Business</span></div>
+          <div class="phase-tagline">The full ecosystem. Personal wealth and business intelligence in one platform.</div>
+        </div>
+
+        <ul class="phase-features">
+          <li class="phase-feature">Business cash-flow forecasting</li>
+          <li class="phase-feature">Tax reserve automation · Quarterly planning</li>
+          <li class="phase-feature">Payroll + expense intelligence</li>
+          <li class="phase-feature">Entity-based wealth strategy</li>
+          <li class="phase-feature">Multi-entity tax optimization</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="roadmap-footnote reveal">
+      <div class="roadmap-footnote-text">
+        Build your wealth with the <strong>Advisor</strong> today.<br>Grow into the <strong>full ecosystem</strong> with us.
+      </div>
+      <div class="roadmap-disclaimer">Phases 02 & 03 are directional · Timelines subject to change</div>
     </div>
   </div>
 </section>
