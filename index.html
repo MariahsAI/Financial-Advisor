@@ -5686,6 +5686,64 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   }
 }
 
+/* ============ REDUCED MOTION (Accessibility) ============ */
+/* Respects the user's OS-level "Reduce Motion" preference.
+   Disables continuous/looping animations while keeping the page fully functional. */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions globally */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Hide elements that are purely motion-driven and would look broken when frozen */
+  .ticker-track,
+  .demo-stream-list,
+  .demo-typing,
+  .demo-toggle-switch,
+  .demo-toggle-switch::after,
+  .trade-log-scroll,
+  .flow-particle {
+    animation: none !important;
+  }
+
+  /* Keep static versions visible */
+  .ticker {
+    display: none;  /* Hide entirely — it's purely decorative motion */
+  }
+
+  /* Stop scrolling lists from looking cut off — show first 3 items statically */
+  .demo-stream-list,
+  .trade-log-scroll {
+    transform: none !important;
+  }
+
+  /* Keep pulse dots subtle but not pulsing */
+  .live-dot,
+  .mood-dot,
+  .counter-pulse,
+  .pressure-line .dot,
+  .reactor-tag::before,
+  .analysis-header-status::before,
+  .bank-shield-icon::before,
+  .gains-axis-dot.mariah,
+  .bias-gauge-live::before {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Stop the orbs from floating */
+  .orb {
+    animation: none !important;
+  }
+
+  /* Reactor stops auto-cycling — handled by JS check below */
+}
+
 /* ============ FOOTER ============ */
 footer {
   border-top: 1px solid var(--line);
@@ -7509,6 +7567,10 @@ footer {
 </footer>
 
 <script>
+// ===== REDUCED MOTION CHECK =====
+// Respects the user's OS-level accessibility preference.
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ===== SCROLL REVEAL =====
 const reveals = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver((entries) => {
@@ -7701,8 +7763,15 @@ let typewriterTimeout;
 function typeResponse(html) {
   clearTimeout(typewriterTimeout);
   mariahResponseBody.innerHTML = '';
-  mariahResponseBody.classList.add('typing-cursor');
   mariahResponse.classList.add('show');
+
+  // If user prefers reduced motion, just show the response instantly
+  if (prefersReducedMotion) {
+    mariahResponseBody.innerHTML = html;
+    return;
+  }
+
+  mariahResponseBody.classList.add('typing-cursor');
 
   // Type out plain text, then add HTML formatting at the end
   const tempEl = document.createElement('div');
@@ -7855,6 +7924,8 @@ const waitlistObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       counterBarEl.classList.add('animate');
+      // Skip the live-ticker simulation when reduce-motion is on
+      if (prefersReducedMotion) return;
       // Slow ticker increment to feel "live"
       setInterval(() => {
         // Only sometimes increment (random feel)
@@ -7899,7 +7970,7 @@ if (demoCalendar) {
 
 // Live-ticking seconds for the deadline countdown demo
 const demoSec = document.getElementById('demoSec');
-if (demoSec) {
+if (demoSec && !prefersReducedMotion) {
   let s = 42;
   setInterval(() => {
     s = (s - 1 + 60) % 60;
@@ -8148,6 +8219,8 @@ const reactorObserver = new IntersectionObserver((entries) => {
       reactorActive = true;
       // Initial setup with first scenario
       setTimeout(() => applyScenario(scenarios[0]), 300);
+      // Skip the cycling loop if user prefers reduced motion
+      if (prefersReducedMotion) return;
       // Cycle through scenarios
       setInterval(() => {
         if (!window._userControllingDial) {
@@ -8168,7 +8241,7 @@ const moods = [
   'Compounding', 'Listening', 'Locked in'
 ];
 let moodIdx = 0;
-if (moodTextEl) {
+if (moodTextEl && !prefersReducedMotion) {
   setInterval(() => {
     moodTextEl.classList.add('fading');
     setTimeout(() => {
