@@ -3117,6 +3117,153 @@ nav {
 /* Prevent horizontal scroll on mobile */
 html, body { overflow-x: hidden; max-width: 100vw; }
 
+/* ============ ONRAMP (Single Question) ============ */
+.onramp-section {
+  padding: 100px 0 60px;
+  position: relative;
+  background: linear-gradient(180deg, transparent, rgba(0,229,255,0.02) 50%, transparent);
+}
+
+.onramp-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.onramp-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.onramp-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.onramp-tag::before, .onramp-tag::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+}
+
+.onramp-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.onramp-title .italic {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cyan);
+}
+
+.onramp-sub {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.onramp-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.onramp-option {
+  position: relative;
+  padding: 28px 28px;
+  background: rgba(0,229,255,0.02);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  border: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  min-height: 92px;
+}
+.onramp-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  transition: box-shadow 0.3s;
+  pointer-events: none;
+}
+.onramp-option::after {
+  content: '→';
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+  color: var(--cyan);
+  font-size: 20px;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.onramp-option:hover {
+  background: rgba(0,229,255,0.06);
+  transform: translateY(-2px);
+}
+.onramp-option:hover::before {
+  box-shadow: inset 0 0 0 1.5px var(--cyan);
+}
+.onramp-option:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+.onramp-option:hover .onramp-option-emoji {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.onramp-option-emoji {
+  font-size: 36px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+
+.onramp-option-text {
+  flex: 1;
+  padding-right: 24px;
+}
+.onramp-option-label {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.onramp-option-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+@media (max-width: 700px) {
+  .onramp-options { grid-template-columns: 1fr; }
+  .onramp-option { padding: 22px 24px; min-height: 80px; gap: 14px; }
+  .onramp-option-emoji { font-size: 30px; }
+  .onramp-option-label { font-size: 15px; }
+}
+
 /* ============ PROFILE / FINANCIAL INSIGHT ============ */
 .profile-section {
   padding: 140px 0;
@@ -4824,60 +4971,48 @@ footer {
   </div>
 </section>
 
-<!-- ===== PERSONALITY QUIZ ===== -->
-<section class="quiz-section" id="quiz">
+<!-- ===== ONRAMP (Single Question) ===== -->
+<section class="onramp-section" id="onramp">
   <div class="container">
-    <div class="quiz-wrap">
-      <div class="quiz-intro">
-        <div class="quiz-tag">60-Second Profile</div>
-        <h2 class="quiz-title">What kind of <span class="italic">investor</span> are you?</h2>
+    <div class="onramp-wrap reveal">
+      <div class="onramp-intro">
+        <div class="onramp-tag">Let's figure this out</div>
+        <h2 class="onramp-title">What's your <span class="italic">situation</span> right now?</h2>
+        <p class="onramp-sub">Pick the one that feels closest — Mariah will tailor the rest.</p>
       </div>
 
-      <div class="quiz-card">
-        <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
-
-        <!-- Active Quiz -->
-        <div id="quizActive">
-          <div class="quiz-progress" id="quizProgress">
-            <div class="quiz-progress-step active"></div>
-            <div class="quiz-progress-step"></div>
-            <div class="quiz-progress-step"></div>
-            <div class="quiz-progress-step"></div>
-            <div class="quiz-progress-step"></div>
+      <div class="onramp-options">
+        <button class="onramp-option" onclick="routeOnramp('disappear')">
+          <span class="onramp-option-emoji">💸</span>
+          <div class="onramp-option-text">
+            <div class="onramp-option-label">I make good money but it disappears</div>
+            <div class="onramp-option-sub">Find the leaks</div>
           </div>
+        </button>
 
-          <div class="quiz-step-label" id="quizStepLabel">Question 1 of 5</div>
-          <div class="quiz-question" id="quizQuestion">Pick a vibe.</div>
-
-          <div class="quiz-options" id="quizOptions"></div>
-        </div>
-
-        <!-- Result -->
-        <div class="quiz-result" id="quizResult">
-          <div class="quiz-result-label">Your Archetype</div>
-          <div class="quiz-archetype" id="archetypeName">The Calculated Visionary</div>
-          <div class="quiz-archetype-sub" id="archetypeSub">A balanced builder who plays the long game.</div>
-
-          <div class="quiz-result-stats">
-            <div class="quiz-stat">
-              <div class="quiz-stat-label">Suggested Goal</div>
-              <div class="quiz-stat-value text" id="archetypeGoal">Grow Wealth</div>
-            </div>
-            <div class="quiz-stat">
-              <div class="quiz-stat-label">Risk Level</div>
-              <div class="quiz-stat-value" id="archetypeRisk">6/10</div>
-            </div>
-            <div class="quiz-stat">
-              <div class="quiz-stat-label">Strategy</div>
-              <div class="quiz-stat-value text" id="archetypeStrategy">Conviction-Weighted</div>
-            </div>
+        <button class="onramp-option" onclick="routeOnramp('invest')">
+          <span class="onramp-option-emoji">📊</span>
+          <div class="onramp-option-text">
+            <div class="onramp-option-label">I want to invest but don't know how</div>
+            <div class="onramp-option-sub">Build a plan</div>
           </div>
+        </button>
 
-          <div class="quiz-result-cta">
-            <button class="btn-primary" onclick="quizToBuilder()">Build My Plan →</button>
-            <button class="btn-ghost" onclick="quizRestart()" style="border:1px solid var(--line-2);">Retake</button>
+        <button class="onramp-option" onclick="routeOnramp('saving')">
+          <span class="onramp-option-emoji">🏠</span>
+          <div class="onramp-option-text">
+            <div class="onramp-option-label">I'm saving for something specific</div>
+            <div class="onramp-option-sub">Set a goal</div>
           </div>
-        </div>
+        </button>
+
+        <button class="onramp-option" onclick="routeOnramp('explore')">
+          <span class="onramp-option-emoji">🤷</span>
+          <div class="onramp-option-text">
+            <div class="onramp-option-label">Just exploring — show me what Mariah does</div>
+            <div class="onramp-option-sub">Take the tour</div>
+          </div>
+        </button>
       </div>
     </div>
   </div>
@@ -7577,6 +7712,35 @@ function resetProfile() {
   document.getElementById('profileAnalysis').classList.remove('show');
   switchMode('bank');
   window._profileData = null;
+}
+
+// ===== ONRAMP ROUTING =====
+function routeOnramp(choice) {
+  // Subtle UX: briefly flash a "Mariah is routing you..." or similar feel
+  // For now, just smooth-scroll to the right section based on choice
+
+  if (choice === 'disappear') {
+    // Find the leaks → Profile section, default to Manual mode so they can see where money goes
+    setTimeout(() => switchMode('manual'), 600);
+    document.getElementById('profile').scrollIntoView({ behavior: 'smooth' });
+  } else if (choice === 'invest') {
+    // Build a plan → Goal Builder, default to Growth
+    setTimeout(() => {
+      const btn = document.querySelector('.type-btn[data-type="growth"]');
+      if (btn) btn.click();
+    }, 600);
+    document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+  } else if (choice === 'saving') {
+    // Set a goal → Profile (manual makes more sense, they can set a target)
+    setTimeout(() => {
+      const btn = document.querySelector('.type-btn[data-type="home"]');
+      if (btn) btn.click();
+    }, 600);
+    document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+  } else if (choice === 'explore') {
+    // Take the tour → Reactor (the wow factor)
+    document.getElementById('reactor').scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
 // ===== ACTION PLAN FLOW (Steps 1-3) =====
