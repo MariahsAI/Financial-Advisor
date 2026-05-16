@@ -4426,135 +4426,232 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   text-shadow: 0 0 24px var(--cyan-glow);
 }
 
-/* === STEP 2: ALLOCATION === */
-.alloc-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-bottom: 32px;
-}
-.alloc-row {
+/* === STEP 2: RISK MODE === */
+.risk-modes {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-.alloc-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.alloc-name {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.alloc-name .emoji { font-size: 18px; }
-.alloc-stats {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-.alloc-pct {
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--cyan);
-}
-.alloc-amount {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-}
-.alloc-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 4px;
-  background: rgba(255,255,255,0.06);
-  outline: none;
-  cursor: pointer;
-}
-.alloc-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px; height: 18px;
-  background: var(--cyan);
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--cyan-glow);
-}
-.alloc-slider::-moz-range-thumb {
-  width: 18px; height: 18px;
-  background: var(--cyan);
-  cursor: pointer;
-  border: none;
-  border-radius: 50%;
-}
-.alloc-desc {
-  font-size: 12px;
-  color: var(--text-faint);
-  font-style: italic;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
 }
 
-.alloc-warning {
-  padding: 12px 16px;
-  background: rgba(255,40,140,0.08);
+.risk-mode {
   position: relative;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  color: var(--magenta);
-  margin-bottom: 20px;
-  display: none;
+  padding: 28px 22px 22px;
+  background: rgba(0,229,255,0.02);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  border: none;
+  color: var(--text);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 240px;
 }
-.alloc-warning.show { display: block; }
-.alloc-warning::before {
+.risk-mode::before {
   content: '';
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 0 1px rgba(255,40,140,0.3);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  transition: box-shadow 0.3s;
   pointer-events: none;
 }
+.risk-mode:hover {
+  background: rgba(0,229,255,0.04);
+  transform: translateY(-2px);
+}
+.risk-mode:hover::before {
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.25);
+}
+.risk-mode.active {
+  background: linear-gradient(180deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
+}
+.risk-mode.active::before {
+  box-shadow: inset 0 0 0 1.5px var(--cyan);
+}
+.risk-mode.active {
+  box-shadow: 0 20px 40px rgba(0,229,255,0.08);
+}
 
-.alloc-projections {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  margin-bottom: 32px;
+.risk-mode-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   position: relative;
 }
-.alloc-proj {
-  background: var(--bg);
-  padding: 18px;
-  text-align: left;
+.risk-mode-icon {
+  font-size: 24px;
+  line-height: 1;
 }
-.alloc-proj-label {
+.risk-mode-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  flex: 1;
+}
+.risk-mode-badge {
   font-family: var(--mono);
   font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 4px 8px;
+  background: rgba(0,229,255,0.1);
+  position: relative;
+}
+.risk-mode-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.3);
+}
+
+.risk-mode-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.risk-mode-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  margin-top: auto;
+}
+.risk-stat {
+  background: rgba(0,0,0,0.2);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rs-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.rs-val {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+}
+.risk-mode.active .rs-val { color: var(--cyan); }
+
+/* "Mariah handles everything" callout */
+.mariah-handles {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(0,229,255,0.04);
+  margin-bottom: 28px;
+  position: relative;
+}
+.mariah-handles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.15);
+  pointer-events: none;
+}
+.mariah-handles-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,229,255,0.08);
+  color: var(--cyan);
+}
+.mariah-handles-icon svg { width: 16px; height: 16px; }
+.mariah-handles-text {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.mariah-handles-text strong { color: var(--cyan); font-weight: 500; }
+
+/* The big payoff number for this step */
+.risk-payoff {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 28px;
+  position: relative;
+}
+.risk-payoff-left, .risk-payoff-right {
+  background: var(--bg);
+  padding: 22px 24px;
+}
+.risk-payoff-right {
+  background: linear-gradient(180deg, rgba(0,229,255,0.06), rgba(0,229,255,0.01));
+  position: relative;
+}
+.risk-payoff-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top right, var(--cyan-glow), transparent 60%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.risk-payoff-label {
+  font-family: var(--mono);
+  font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-faint);
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 2;
+}
+.risk-payoff-value {
+  font-family: var(--display);
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
   margin-bottom: 6px;
 }
-.alloc-proj-value {
+.risk-payoff-gap {
   font-family: var(--display);
-  font-size: 20px;
-  font-weight: 600;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 700;
   color: var(--cyan);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 0 16px var(--cyan-glow);
+  position: relative;
+  z-index: 2;
+  margin-bottom: 6px;
 }
-.alloc-proj-tag {
-  font-size: 11px;
+.risk-payoff-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
   color: var(--text-dim);
-  margin-top: 4px;
+  position: relative;
+  z-index: 2;
 }
 
-@media (max-width: 640px) {
-  .alloc-projections { grid-template-columns: 1fr; }
-  .live-tally { grid-template-columns: 1fr; gap: 16px; }
+@media (max-width: 900px) {
+  .risk-modes { grid-template-columns: 1fr; }
+  .risk-mode { min-height: auto; }
+}
+@media (max-width: 560px) {
+  .risk-payoff { grid-template-columns: 1fr; }
 }
 
 /* === STEP 3: PLAN CARD === */
@@ -5903,78 +6000,80 @@ footer {
             </div>
           </div>
 
-          <!-- STEP 2: ALLOCATION -->
+          <!-- STEP 2: RISK MODE -->
           <div class="plan-card" id="planStep2" style="display:none;">
             <div class="feature-corners"><span></span><span></span><span></span><span></span></div>
 
-            <div class="plan-step-title">How should Mariah <span class="italic">trade</span> your money?</div>
-            <p class="plan-step-sub">Inside your <strong style="color:var(--cyan);">MX1 Trade account</strong>, Mariah runs three strategies in parallel. Drag the sliders to set your priorities — they have to add up to 100%.</p>
+            <div class="plan-step-title">How aggressive should <span class="italic">Mariah</span> be?</div>
+            <p class="plan-step-sub">Pick a mode — Mariah handles the actual allocation, rebalancing, and execution inside your <strong style="color:var(--cyan);">MX1 Trade account</strong>. You can change this anytime.</p>
 
-            <div class="alloc-grid">
-              <div class="alloc-row">
-                <div class="alloc-head">
-                  <div class="alloc-name"><span class="emoji">🚀</span> Growth Strategy</div>
-                  <div class="alloc-stats">
-                    <span class="alloc-pct" id="allocGrowthPct">60%</span>
-                    <span class="alloc-amount" id="allocGrowthAmt">$384/mo</span>
-                  </div>
+            <div class="risk-modes">
+              <button class="risk-mode" data-mode="conservative" onclick="selectRiskMode('conservative')">
+                <div class="risk-mode-head">
+                  <div class="risk-mode-icon">🛡️</div>
+                  <div class="risk-mode-title">Conservative</div>
                 </div>
-                <input type="range" class="alloc-slider" id="allocGrowth" min="0" max="100" value="60">
-                <div class="alloc-desc">Aggressive compounding — equities, factor tilts, selective crypto exposure.</div>
+                <div class="risk-mode-desc">Protect capital first. Lower returns, lower drawdowns. Built for people who can't afford to lose what they have.</div>
+                <div class="risk-mode-stats">
+                  <div class="risk-stat"><span class="rs-label">Target Return</span><span class="rs-val">6% / yr</span></div>
+                  <div class="risk-stat"><span class="rs-label">Max Drawdown</span><span class="rs-val">~5%</span></div>
+                </div>
+              </button>
+
+              <button class="risk-mode active" data-mode="balanced" onclick="selectRiskMode('balanced')">
+                <div class="risk-mode-head">
+                  <div class="risk-mode-icon">⚖️</div>
+                  <div class="risk-mode-title">Balanced</div>
+                  <div class="risk-mode-badge">Recommended</div>
+                </div>
+                <div class="risk-mode-desc">Mariah's default mix. Real growth, moderate volatility. Most users start here and stay.</div>
+                <div class="risk-mode-stats">
+                  <div class="risk-stat"><span class="rs-label">Target Return</span><span class="rs-val">10% / yr</span></div>
+                  <div class="risk-stat"><span class="rs-label">Max Drawdown</span><span class="rs-val">~12%</span></div>
+                </div>
+              </button>
+
+              <button class="risk-mode" data-mode="aggressive" onclick="selectRiskMode('aggressive')">
+                <div class="risk-mode-head">
+                  <div class="risk-mode-icon">🚀</div>
+                  <div class="risk-mode-title">Aggressive</div>
+                </div>
+                <div class="risk-mode-desc">Max compounding. Higher volatility, higher ceiling. Built for long-horizon investors with stomach for swings.</div>
+                <div class="risk-mode-stats">
+                  <div class="risk-stat"><span class="rs-label">Target Return</span><span class="rs-val">14% / yr</span></div>
+                  <div class="risk-stat"><span class="rs-label">Max Drawdown</span><span class="rs-val">~22%</span></div>
+                </div>
+              </button>
+            </div>
+
+            <div class="mariah-handles">
+              <div class="mariah-handles-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 8V12L15 14"/>
+                </svg>
               </div>
-
-              <div class="alloc-row">
-                <div class="alloc-head">
-                  <div class="alloc-name"><span class="emoji">🏠</span> Down Payment Strategy</div>
-                  <div class="alloc-stats">
-                    <span class="alloc-pct" id="allocHomePct">30%</span>
-                    <span class="alloc-amount" id="allocHomeAmt">$192/mo</span>
-                  </div>
-                </div>
-                <input type="range" class="alloc-slider" id="allocHome" min="0" max="100" value="30">
-                <div class="alloc-desc">Capital-preserving — treasuries and short-duration credit.</div>
-              </div>
-
-              <div class="alloc-row">
-                <div class="alloc-head">
-                  <div class="alloc-name"><span class="emoji">🛡️</span> Emergency Reserve</div>
-                  <div class="alloc-stats">
-                    <span class="alloc-pct" id="allocEmrgPct">10%</span>
-                    <span class="alloc-amount" id="allocEmrgAmt">$64/mo</span>
-                  </div>
-                </div>
-                <input type="range" class="alloc-slider" id="allocEmrg" min="0" max="100" value="10">
-                <div class="alloc-desc">High-yield savings — accessible within 24 hours.</div>
+              <div class="mariah-handles-text">
+                <strong>Mariah handles everything else.</strong> Allocation across instruments, rebalancing, tax timing, entries and exits — all autonomous, all inside your MX1 Trade account. You can pause or override anytime.
               </div>
             </div>
 
-            <div class="alloc-warning" id="allocWarning">⚠ Allocations must add up to exactly 100%</div>
-
-            <div class="alloc-projections">
-              <div class="alloc-proj">
-                <div class="alloc-proj-label">20-Year Growth</div>
-                <div class="alloc-proj-value" id="proj10yrGrowth">$331,800</div>
-                <div class="alloc-proj-tag">At 10% · Mariah rate</div>
+            <div class="risk-payoff">
+              <div class="risk-payoff-left">
+                <div class="risk-payoff-label">Your 20-year projection</div>
+                <div class="risk-payoff-value" id="riskPayoffValue">+$486,000</div>
+                <div class="risk-payoff-sub" id="riskPayoffSub">$625/mo · Balanced · 10% annual</div>
               </div>
-              <div class="alloc-proj">
-                <div class="alloc-proj-label">20-Year Home Fund</div>
-                <div class="alloc-proj-value" id="proj10yrHome">$70,600</div>
-                <div class="alloc-proj-tag">At 4% · capital-preserve</div>
+              <div class="risk-payoff-right">
+                <div class="risk-payoff-label">vs Sitting Still</div>
+                <div class="risk-payoff-gap" id="riskPayoffGap">+$486,000</div>
+                <div class="risk-payoff-sub">Compounded over 20 yrs</div>
               </div>
-              <div class="alloc-proj">
-                <div class="alloc-proj-label">20-Year Reserve</div>
-                <div class="alloc-proj-value" id="proj10yrEmrg">$26,300</div>
-                <div class="alloc-proj-tag">At 5% APY · liquid</div>
-              </div>
-            </div>
-
-            <div style="text-align:center; margin-bottom:24px; font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--text-faint);">
-              ALL THREE STRATEGIES RUN INSIDE YOUR <span style="color:var(--cyan);">MX1 TRADE ACCOUNT</span>
             </div>
 
             <div class="profile-cta-row">
               <button class="btn-ghost" onclick="goToStep(1)" style="border:1px solid var(--line-2);">← Back</button>
-              <button class="btn-primary" id="step2Next" onclick="goToStep(3)">Next: See My Gains →</button>
+              <button class="btn-primary" onclick="goToStep(3)">Next: See My Gains →</button>
             </div>
           </div>
 
@@ -8739,13 +8838,13 @@ function goToStep(n) {
 // === STEP 3: GAINS CHART ===
 function drawGainsChart() {
   const monthly = getTotalMonthlySavings();
-  const a = userAllocations;
+  const mode = riskModes[currentRiskMode];
 
   // Compute weighted blend rates
   // Passive: 7% (S&P long-term average)
-  // Mariah: 10% annualized (active outperformance via signal alpha, tax opt, rebalancing)
+  // Mariah: annual rate based on selected risk mode
   const passiveRate = 0.07;
-  const mariahRate = 0.10;
+  const mariahRate = mode.annualRate;
   const totalYears = 20;
   const months = totalYears * 12;
 
@@ -8856,6 +8955,10 @@ function drawGainsChart() {
   document.getElementById('alphaTax').textContent = '+$' + alphaTax.toLocaleString();
   document.getElementById('alphaRebal').textContent = '+$' + alphaRebal.toLocaleString();
 
+  // Update the comparison card strategy label with the selected mode
+  const mariahCard = document.querySelector('.gains-card.mariah .gains-card-strategy');
+  if (mariahCard) mariahCard.textContent = `Active · ${(mariahRate * 100).toFixed(0)}% annual · ${mode.label}`;
+
   // Update the gap callout label with the alpha amount
   const gapValueEl = document.getElementById('gapCalloutValue');
   if (gapValueEl) {
@@ -8869,100 +8972,93 @@ function drawGainsChart() {
   }
 }
 
-// === STEP 2: Allocation logic ===
-const allocGrowth = document.getElementById('allocGrowth');
-const allocHome = document.getElementById('allocHome');
-const allocEmrg = document.getElementById('allocEmrg');
+// === STEP 2: Risk Mode Selection ===
+let currentRiskMode = 'balanced';
 
-function recalcAllocations() {
-  if (!allocGrowth) return;
-  const g = parseInt(allocGrowth.value);
-  const h = parseInt(allocHome.value);
-  const e = parseInt(allocEmrg.value);
-  const total = g + h + e;
-  const monthly = getTotalMonthlySavings();
-
-  userAllocations = { growth: g, home: h, emrg: e };
-
-  document.getElementById('allocGrowthPct').textContent = g + '%';
-  document.getElementById('allocHomePct').textContent = h + '%';
-  document.getElementById('allocEmrgPct').textContent = e + '%';
-
-  const gAmt = Math.round(monthly * g / 100);
-  const hAmt = Math.round(monthly * h / 100);
-  const eAmt = Math.round(monthly * e / 100);
-
-  document.getElementById('allocGrowthAmt').textContent = '$' + gAmt + '/mo';
-  document.getElementById('allocHomeAmt').textContent = '$' + hAmt + '/mo';
-  document.getElementById('allocEmrgAmt').textContent = '$' + eAmt + '/mo';
-
-  // 20-year projections (FV of annuity) — Growth uses Mariah's 10% annual rate
-  function fv(amt, rate) {
-    const r = rate / 12;
-    const n = 240;
-    return amt === 0 ? 0 : amt * (((Math.pow(1 + r, n) - 1)) / r);
+const riskModes = {
+  conservative: {
+    label: 'Conservative',
+    annualRate: 0.06,
+    mariahForPlan: false,  // doesn't unlock Mariah's full alpha
+    // For internal calcs that still need allocations
+    allocations: { growth: 30, home: 50, emrg: 20 }
+  },
+  balanced: {
+    label: 'Balanced',
+    annualRate: 0.10,
+    mariahForPlan: true,
+    allocations: { growth: 60, home: 30, emrg: 10 }
+  },
+  aggressive: {
+    label: 'Aggressive',
+    annualRate: 0.14,
+    mariahForPlan: true,
+    allocations: { growth: 85, home: 10, emrg: 5 }
   }
-  document.getElementById('proj10yrGrowth').textContent = '$' + Math.round(fv(gAmt, 0.10)).toLocaleString();
-  document.getElementById('proj10yrHome').textContent = '$' + Math.round(fv(hAmt, 0.04)).toLocaleString();
-  document.getElementById('proj10yrEmrg').textContent = '$' + Math.round(fv(eAmt, 0.05)).toLocaleString();
+};
 
-  // Warning if total != 100
-  const warning = document.getElementById('allocWarning');
-  const step2Next = document.getElementById('step2Next');
-  if (total !== 100) {
-    warning.textContent = `⚠ Allocations add up to ${total}% — adjust to 100%`;
-    warning.classList.add('show');
-    if (step2Next) {
-      step2Next.disabled = true;
-      step2Next.style.opacity = '0.5';
-      step2Next.style.cursor = 'not-allowed';
-    }
-  } else {
-    warning.classList.remove('show');
-    if (step2Next) {
-      step2Next.disabled = false;
-      step2Next.style.opacity = '';
-      step2Next.style.cursor = '';
-    }
-  }
+function selectRiskMode(mode) {
+  currentRiskMode = mode;
+  // Update active class on buttons
+  document.querySelectorAll('.risk-mode').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === mode);
+  });
+  // Mirror to internal allocation state for backward compat
+  userAllocations = riskModes[mode].allocations;
+  // Recompute live payoff
+  updateRiskPayoff();
 }
 
-[allocGrowth, allocHome, allocEmrg].forEach(s => {
-  if (s) s.addEventListener('input', recalcAllocations);
-});
+function updateRiskPayoff() {
+  const monthly = getTotalMonthlySavings();
+  const r = riskModes[currentRiskMode];
+  const annualRate = r.annualRate;
+  const monthlyRate = annualRate / 12;
+  const n = 240; // 20 years
+  const fv = monthly === 0 ? 0 : monthly * (((Math.pow(1 + monthlyRate, n) - 1)) / monthlyRate);
+
+  const valueEl = document.getElementById('riskPayoffValue');
+  const gapEl = document.getElementById('riskPayoffGap');
+  const subEl = document.getElementById('riskPayoffSub');
+
+  if (valueEl) valueEl.textContent = '+$' + Math.round(fv).toLocaleString();
+  if (gapEl) gapEl.textContent = '+$' + Math.round(fv).toLocaleString();
+  if (subEl) subEl.textContent = `$${monthly.toLocaleString()}/mo · ${r.label} · ${(annualRate * 100).toFixed(0)}% annual`;
+}
+
+// Recompute on step changes (also called from recalcTally)
+function recalcAllocations() {
+  // The risk-mode UI replaces the old slider-based allocations.
+  // This function exists for compatibility with the rest of the flow.
+  if (currentRiskMode) {
+    userAllocations = riskModes[currentRiskMode].allocations;
+    updateRiskPayoff();
+  }
+}
 
 // === STEP 4: Final plan ===
 function finalizePlan() {
   const monthly = getTotalMonthlySavings();
-  const a = userAllocations;
-
-  // Compute weighted 20-year payoff with MARIAH's outperformance
-  // Growth at 10% (Mariah's annual rate), home at 4%, emrg at 5%
-  function fv(amt, rate) {
-    const r = rate / 12;
-    const n = 240; // 20 years
-    return amt === 0 ? 0 : amt * (((Math.pow(1 + r, n) - 1)) / r);
-  }
-  const gAmt = monthly * a.growth / 100;
-  const hAmt = monthly * a.home / 100;
-  const eAmt = monthly * a.emrg / 100;
-  const totalFV = fv(gAmt, 0.10) + fv(hAmt, 0.04) + fv(eAmt, 0.05);
+  const mode = riskModes[currentRiskMode];
+  const monthlyRate = mode.annualRate / 12;
+  const n = 240; // 20 years
+  const totalFV = monthly === 0 ? 0 : monthly * (((Math.pow(1 + monthlyRate, n) - 1)) / monthlyRate);
 
   document.getElementById('finalMonthly').textContent = '$' + monthly.toLocaleString();
   document.getElementById('finalPayoff').textContent = '+$' + Math.round(totalFV).toLocaleString();
 
-  // Determine primary goal based on largest allocation
+  // Primary goal: based on which strategy gets the most in this risk mode
+  const a = mode.allocations;
   let primary = 'Grow Wealth';
   if (a.home > a.growth && a.home > a.emrg) primary = 'Buy a Home';
   if (a.emrg > a.growth && a.emrg > a.home) primary = 'Build Emergency Fund';
   document.getElementById('finalPrimary').textContent = primary;
 
-  // Risk based on growth allocation
-  let risk = 'Balanced · 6/10';
-  if (a.growth >= 75) risk = 'Aggressive · 8/10';
-  else if (a.growth >= 55) risk = 'Balanced · 6/10';
-  else if (a.growth >= 30) risk = 'Moderate · 4/10';
-  else risk = 'Conservative · 3/10';
+  // Risk label
+  let risk;
+  if (currentRiskMode === 'conservative') risk = 'Conservative · 3/10';
+  else if (currentRiskMode === 'balanced') risk = 'Balanced · 6/10';
+  else risk = 'Aggressive · 8/10';
   document.getElementById('finalRisk').textContent = risk;
 
   // Random plan ID
